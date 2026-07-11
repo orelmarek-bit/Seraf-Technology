@@ -1,0 +1,61 @@
+{
+  "brand": {
+    "name": "Seraf Technology",
+    "tagline": "Every movement under control"
+  },
+  "nav": {
+    "products": "Products",
+    "solutions": "Solutions",
+    "howItWorks": "How it works",
+    "why": "Why Seraf",
+    "references": "References",
+    "blog": "Blog",
+    "contact": "Contact",
+    "getQuote": "Get a quote"
+  },
+  "footer": {
+    "license": "Licensed technical security service",
+    "product": "Product",
+    "company": "Company",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookies",
+    "terms": "Terms & Conditions"
+  },
+  "quote": {
+    "name": "Full name",
+    "company": "Company",
+    "email": "Email",
+    "phone": "Phone",
+    "useCase": "Use case",
+    "location": "Site location",
+    "quantity": "Number of towers / area",
+    "message": "Message",
+    "messagePlaceholder": "Tell us about your site and what you need to protect…",
+    "optional": "optional",
+    "useCaseSelect": "Select…",
+    "useCaseConstruction": "Construction site",
+    "useCaseRenewables": "Solar / wind farms",
+    "useCaseEvents": "Events",
+    "useCaseParking": "Parking & logistics",
+    "useCaseProperty": "Real estate",
+    "useCaseOther": "Other",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "successTitle": "Thank you for your request!",
+    "successBody": "We'll get back to you within 24 hours with a tailored quote.",
+    "errorBody": "Something went wrong. Please try again or give us a call.",
+    "errName": "Please enter your name.",
+    "errEmail": "Please enter a valid email.",
+    "errUseCase": "Please select a use case."
+  },
+  "designSystem": {
+    "kicker": "Milestone 3 — Design System",
+    "title": "Seraf design system foundation",
+    "subtitle": "Color tokens, typography and base primitives. Toggle theme and language top-right.",
+    "colors": "Color tokens",
+    "typography": "Typography",
+    "buttons": "Buttons",
+    "badges": "Badges"
+  }
+}

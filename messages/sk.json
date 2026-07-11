@@ -1,0 +1,61 @@
+{
+  "brand": {
+    "name": "Seraf Technology",
+    "tagline": "Každý pohyb pod kontrolou"
+  },
+  "nav": {
+    "products": "Produkty",
+    "solutions": "Využitie",
+    "howItWorks": "Ako to funguje",
+    "why": "Prečo Seraf",
+    "references": "Referencie",
+    "blog": "Blog",
+    "contact": "Kontakt",
+    "getQuote": "Získať cenovú ponuku"
+  },
+  "footer": {
+    "license": "Licencovaná technická služba ochrany",
+    "product": "Produkt",
+    "company": "Spoločnosť",
+    "rights": "Všetky práva vyhradené.",
+    "privacy": "Ochrana súkromia",
+    "cookies": "Cookies",
+    "terms": "Obchodné podmienky"
+  },
+  "quote": {
+    "name": "Meno a priezvisko",
+    "company": "Spoločnosť",
+    "email": "E-mail",
+    "phone": "Telefón",
+    "useCase": "Typ využitia",
+    "location": "Lokalita objektu",
+    "quantity": "Počet veží / rozloha",
+    "message": "Správa",
+    "messagePlaceholder": "Popíšte nám váš objekt a čo potrebujete chrániť…",
+    "optional": "nepovinné",
+    "useCaseSelect": "Vyberte…",
+    "useCaseConstruction": "Stavba",
+    "useCaseRenewables": "Solárne / veterné parky",
+    "useCaseEvents": "Podujatia",
+    "useCaseParking": "Parkoviská a logistika",
+    "useCaseProperty": "Nehnuteľnosti",
+    "useCaseOther": "Iné",
+    "submit": "Odoslať dopyt",
+    "sending": "Odosielam…",
+    "successTitle": "Ďakujeme za váš dopyt!",
+    "successBody": "Ozveme sa vám do 24 hodín s cenovou ponukou na mieru.",
+    "errorBody": "Niečo sa pokazilo. Skúste to znova alebo nám zavolajte.",
+    "errName": "Zadajte prosím vaše meno.",
+    "errEmail": "Zadajte platný e-mail.",
+    "errUseCase": "Vyberte typ využitia."
+  },
+  "designSystem": {
+    "kicker": "Míľnik 3 — Dizajnový systém",
+    "title": "Základ dizajnového systému Seraf",
+    "subtitle": "Farebné tokeny, typografia a základné prvky. Prepnite tému aj jazyk vpravo hore.",
+    "colors": "Farebné tokeny",
+    "typography": "Typografia",
+    "buttons": "Tlačidlá",
+    "badges": "Štítky"
+  }
+}
