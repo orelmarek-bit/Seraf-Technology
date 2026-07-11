@@ -136,7 +136,7 @@ function Stage({ reveal }: { reveal: number }) {
       </div>
 
       {/* DEPLOY visual — 24/7 · LIVE, above the lamp */}
-      <div className="absolute left-1/2 top-[5%] z-30 -translate-x-1/2">
+      <div className="absolute left-1/2 top-[11%] z-30 -translate-x-1/2">
         <motion.div animate={showS(reveal >= 1)} transition={{ duration: 0.45 }}>
           <span className="font-mono-v2 rounded-full border border-primary/50 bg-primary/15 px-4 py-1.5 text-sm font-medium text-primary shadow-[0_0_20px_-4px_#5c9cff]">
             24/7 · LIVE
@@ -151,7 +151,7 @@ function Stage({ reveal }: { reveal: number }) {
           <span className="font-mono-v2 text-sm font-semibold text-primary">360°</span>
           <LockOn>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/hud/person-walk.png" alt="" className="h-16 w-auto object-contain" />
+            <img src="/hud/person-walk.png" alt="" className="h-14 w-auto object-contain" />
           </LockOn>
           <div className="mt-1 flex items-center gap-2 rounded-full border border-border bg-card/70 px-2.5 py-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -179,28 +179,34 @@ function Stage({ reveal }: { reveal: number }) {
       {/* RESPOND visual — left quadrant */}
       <div className="absolute left-[9%] top-1/2 z-30 -translate-y-1/2">
         <motion.div animate={showS(reveal >= 4)} transition={{ duration: 0.45 }} className="flex flex-col items-center gap-1.5">
-          <PcoNode />
-          <span className="font-mono-v2 text-sm font-semibold text-primary">PCO</span>
-          {/* upward arrow — bold, filled, glowing */}
-          <svg viewBox="0 0 24 46" className="h-10 w-5 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
+          {/* upward arrow — bold, filled, glowing — directly above PCO */}
+          <svg viewBox="0 0 24 46" className="h-9 w-[19px] [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
             <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
           </svg>
-          {/* operator → police escalation */}
-          <div className="flex items-center gap-1.5">
-            <span className="flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
-              <UserRound className="size-5 text-[#080D2C]" />
-            </span>
-            <svg viewBox="0 0 24 16" className="h-3 w-5 [filter:drop-shadow(0_0_4px_#5c9cff)]" aria-hidden>
-              <path d="M1 8 H17 M12 3 L18 8 L12 13" fill="none" stroke="#5c9cff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <div className="flex flex-col items-center gap-0.5">
-              <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
-                <Shield className="size-4 text-primary" />
+          {/* PCO */}
+          <PcoNode />
+          <span className="font-mono-v2 text-sm font-semibold text-primary">PCO</span>
+          {/* operator, aligned under PCO, with a right branch to police 158 */}
+          <div className="flex flex-col items-center gap-1">
+            <div className="relative">
+              <span className="flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
+                <UserRound className="size-5 text-[#080D2C]" />
               </span>
-              <span className="font-mono-v2 text-xs font-semibold text-primary">158</span>
+              <div className="absolute left-full top-1/2 ml-2 flex -translate-y-1/2 items-center gap-2">
+                {/* same arrow, pointing right → police */}
+                <svg viewBox="0 0 46 24" className="h-4 w-8 [filter:drop-shadow(0_0_5px_#5c9cff)]" aria-hidden>
+                  <path d="M45 12 L27 1 V8 H1 V16 H27 V23 Z" fill="#5c9cff" />
+                </svg>
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
+                    <Shield className="size-4 text-primary" />
+                  </span>
+                  <span className="font-mono-v2 text-xs font-semibold text-primary">158</span>
+                </div>
+              </div>
             </div>
+            <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">Operator notified</span>
           </div>
-          <span className="font-mono-v2 mt-0.5 text-[10px] uppercase tracking-widest text-muted-foreground">Operator notified</span>
         </motion.div>
       </div>
     </div>

@@ -1,11 +1,39 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
+
 import { Link } from "@/i18n/routing";
 import { pick } from "@/content/site";
+import { cn } from "@/lib/utils";
 
 export function NavV2({ locale }: { locale: string }) {
   const _ = pick(locale);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 768px)").matches;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const willPlay = desktop && !reduce && !sessionStorage.getItem("seraf-intro-seen");
+    if (!willPlay) return; // return visit / mobile → nav stays visible
+
+    setVisible(false); // hide during the intro, fade in as the doors part
+    const onOpen = () => setVisible(true);
+    window.addEventListener("seraf-intro-open", onOpen, { once: true });
+    const fallback = setTimeout(() => setVisible(true), 2600);
+    return () => {
+      window.removeEventListener("seraf-intro-open", onOpen);
+      clearTimeout(fallback);
+    };
+  }, []);
+
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
+    <header
+      className={cn(
+        "absolute inset-x-0 top-0 z-50 transition-opacity duration-700",
+        visible ? "opacity-100" : "opacity-0"
+      )}
+    >
       <nav className="mx-auto grid max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center px-6 py-6 sm:px-10">
         <Link
           href="/why-seraf"
@@ -23,7 +51,6 @@ export function NavV2({ locale }: { locale: string }) {
           </span>
         </span>
 
-        {/* right cell intentionally empty — keeps the wordmark centered */}
         <span aria-hidden />
       </nav>
     </header>
