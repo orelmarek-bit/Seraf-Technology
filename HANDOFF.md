@@ -61,7 +61,8 @@ Page: `src/app/[locale]/v2/page.tsx`
   <HeroV2/>           // Lucien hero
   <section><SectionIntro .../></section>   // "How it works" eyebrow + headline
   <ScrollyCircle/>    // the circular "Threat Loop" HUD (the big one)
-  <ProductsV2/>       // 3 tower models (products-v2.tsx)
+  <ComparisonV2/>     // Guards vs fixed CCTV vs Seraf tower table (comparison-v2.tsx)
+  <ProductsV2/>       // 3 tower models + tower showcase w/ annotations (products-v2.tsx)
   <ApplicationsV2/>   // 6 use-cases / Využitie (applications-v2.tsx)
   <WhyV2/>            // stats band + 6 benefit pillars (why-v2.tsx)
   <FaqV2/>            // native <details> accordion (faq-v2.tsx)
