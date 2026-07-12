@@ -2,7 +2,8 @@ import { ArrowUpRight } from "lucide-react";
 
 import { pick } from "@/content/site";
 
-const LICENCE_URL = "https://seraftechnology.com/wp-content/uploads/2024/07/Seraf-licencia.pdf";
+/** Self-hosted copy (public/docs/) so the link survives the old site's retirement. */
+const LICENCE_URL = "/docs/seraf-licencia.pdf";
 
 /** Slim verifiable-facts bar directly under the hero — instant legitimacy for security buyers. */
 export function TrustStripV2({ locale }: { locale: string }) {

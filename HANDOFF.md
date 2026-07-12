@@ -116,9 +116,10 @@ Progressive enhancement: desktop ≥1024px → pinned HUD; mobile/reduced-motion
   silhouette + "filtered" pill. Both silhouettes are `h-14` (same size).
 - **DETER:** "Siren shockwave", glowing "121 dB", expanding siren rings, running-person silhouette
   (`h-14`). (Stroboscopic flash was removed.)
-- **RESPOND (top→bottom):** ↑ bold arrow → PCO node (dot cluster) + "PCO" → operator avatar + "Operator
-  notified", with the **same bold arrow pointing right** from the operator → **police shield + "158"**
-  (Slovak police number). *(This layout was built from an ambiguous request — may need tweaks.)*
+- **RESPOND (top→bottom):** a vertical notification chain reflecting the real flow —
+  "ALARM" label → ↓ arrow → operator avatar + PCO node ("PCO operator notified") → ↓ arrow →
+  police shield + "158" ("Police alerted"). All labels bilingual. (Layout confirmed by the user
+  2026-07-12: threat detected → PCO operator notified → operator calls police.)
 
 ## 6. Assets (`public/`)
 
@@ -171,7 +172,12 @@ Progressive enhancement: desktop ≥1024px → pinned HUD; mobile/reduced-motion
 
 Repo is initialized in `seraf-technology/`.
 - Tag **`test1`** = state before the recent v2 changes.
-- Tag **`test2`** = current state (this handoff). Restore with `git reset --hard test2` (or `test1`).
+- Tag **`test2`** = v2 intro + HUD.
+- Tag **`v3`** = v2 homepage with full content sections (user-requested checkpoint, 2026-07-12).
+  After v3: conversion quick wins (nav CTA + locale switcher, hero CTA pair, trust strip,
+  2s skippable intro, clickable app cards), self-hosted licence PDF (`public/docs/`),
+  v2-themed quote page at `/v2/quote` (all v2 CTAs point there), RESPOND chain fix.
+  Restore with `git reset --hard <tag>`.
 
 ## 10. Open items / next steps
 

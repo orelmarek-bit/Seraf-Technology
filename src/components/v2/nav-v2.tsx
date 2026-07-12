@@ -8,11 +8,12 @@ import { pick } from "@/content/site";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { cn } from "@/lib/utils";
 
-export function NavV2({ locale }: { locale: string }) {
+export function NavV2({ locale, introAware = true }: { locale: string; introAware?: boolean }) {
   const _ = pick(locale);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    if (!introAware) return; // pages without the intro overlay show the nav immediately
     const desktop = window.matchMedia("(min-width: 768px)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const willPlay = desktop && !reduce && !sessionStorage.getItem("seraf-intro-seen");
@@ -26,7 +27,7 @@ export function NavV2({ locale }: { locale: string }) {
       window.removeEventListener("seraf-intro-open", onOpen);
       clearTimeout(fallback);
     };
-  }, []);
+  }, [introAware]);
 
   return (
     <header
@@ -55,7 +56,7 @@ export function NavV2({ locale }: { locale: string }) {
         <span className="flex items-center justify-end gap-3">
           <LocaleSwitcher />
           <Link
-            href="/quote"
+            href="/v2/quote"
             className="hidden items-center rounded-full bg-foreground px-4 py-1.5 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90 sm:inline-flex"
           >
             {_("Nezáväzná ponuka", "Request a quote")}
