@@ -8,6 +8,11 @@ import { IntroDoors } from "@/components/v2/hero-doors";
 import { HeroV2 } from "@/components/v2/hero-v2";
 import { SectionIntro } from "@/components/v2/section-intro";
 import { ScrollyCircle } from "@/components/v2/scrolly-circle";
+import { ProductsV2 } from "@/components/v2/products-v2";
+import { ApplicationsV2 } from "@/components/v2/applications-v2";
+import { WhyV2 } from "@/components/v2/why-v2";
+import { FaqV2 } from "@/components/v2/faq-v2";
+import { ContactV2 } from "@/components/v2/contact-v2";
 import { FooterV2 } from "@/components/v2/footer-v2";
 
 export function generateStaticParams() {
@@ -55,6 +60,12 @@ export default async function V2Page({ params }: { params: Promise<{ locale: str
       </section>
 
       <ScrollyCircle />
+
+      <ProductsV2 locale={locale} />
+      <ApplicationsV2 locale={locale} />
+      <WhyV2 locale={locale} />
+      <FaqV2 locale={locale} />
+      <ContactV2 locale={locale} />
 
       <FooterV2 locale={locale} />
     </div>

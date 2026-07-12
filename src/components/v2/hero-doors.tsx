@@ -61,10 +61,12 @@ export function IntroDoors() {
   const doorBase = "absolute inset-y-0 w-1/2 overflow-hidden bg-[#080D2C]";
   const trans = `transform ${SLIDE_MS}ms ${EASE}`;
 
+  // Full wordmark, centred over the logo (which straddles the seam). Rendered on
+  // both doors and pinned to the seam so it splits down the middle exactly like
+  // the logo when the doors part.
   const wordStyle: React.CSSProperties = {
     position: "absolute",
     top: "calc(50% - 25vh)",
-    transform: "translateY(-100%)",
     fontFamily: "var(--font-hanken), sans-serif",
     fontWeight: 500,
     textTransform: "uppercase",
@@ -81,14 +83,18 @@ export function IntroDoors() {
         className={cn(doorBase, "left-0")}
         style={{ transition: trans, transform: opened ? "translateX(-110%)" : "translateX(0)" }}
       >
-        <span style={{ ...wordStyle, right: "2.2vw" }}>SERAF</span>
+        <span style={{ ...wordStyle, right: 0, transform: "translate(50%, -100%)" }}>
+          SERAF&nbsp;TECHNOLOGY
+        </span>
         <div className="absolute left-full top-1/2 -translate-x-1/2 -translate-y-1/2">{logo}</div>
       </div>
       <div
         className={cn(doorBase, "left-1/2")}
         style={{ transition: trans, transform: opened ? "translateX(110%)" : "translateX(0)" }}
       >
-        <span style={{ ...wordStyle, left: "2.2vw" }}>TECHNOLOGY</span>
+        <span style={{ ...wordStyle, left: 0, transform: "translate(-50%, -100%)" }}>
+          SERAF&nbsp;TECHNOLOGY
+        </span>
         <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">{logo}</div>
       </div>
     </div>

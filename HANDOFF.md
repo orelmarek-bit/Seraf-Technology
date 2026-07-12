@@ -61,9 +61,21 @@ Page: `src/app/[locale]/v2/page.tsx`
   <HeroV2/>           // Lucien hero
   <section><SectionIntro .../></section>   // "How it works" eyebrow + headline
   <ScrollyCircle/>    // the circular "Threat Loop" HUD (the big one)
+  <ProductsV2/>       // 3 tower models (products-v2.tsx)
+  <ApplicationsV2/>   // 6 use-cases / Využitie (applications-v2.tsx)
+  <WhyV2/>            // stats band + 6 benefit pillars (why-v2.tsx)
+  <FaqV2/>            // native <details> accordion (faq-v2.tsx)
+  <ContactV2/>        // closing CTA + phone/email/LinkedIn (contact-v2.tsx)
   <FooterV2/>         // giant "SERAF" wordmark footer
 </div>
 ```
+**Content reuse:** the added sections consume the EXISTING bilingual getters from the main
+site's content layer — `getProducts` (`content/products.ts`), `getSolutions`
+(`content/solutions.ts`), `getPillars`/`getStats`/`getFaqs` (`content/home.ts`), and `SITE`
+(`content/site.ts`). No content was re-authored; it's the same data as the original
+seraftechnology.com site, re-skinned in the v2 palette. Product cards link to the main-site
+`/products/[slug]` detail pages; the CTA links to `/quote` (those pages are still cyan-themed —
+v2 re-skin of inner pages is not done yet).
 
 - **nav-v2.tsx** — `→ About` left; centered logo + `SERAF TECHNOLOGY` wordmark (mono, tracked). Client;
   hidden during the intro, **fades in** on the `seraf-intro-open` window event; always visible on
@@ -163,7 +175,10 @@ Repo is initialized in `seraf-technology/`.
 
 ## 10. Open items / next steps
 
-- `/v2` is **homepage-only** so far — full re-skin of the other pages not done.
+- The `/v2` **homepage now carries the full content** (products, applications, why/stats, FAQ,
+  contact) pulled from the shared content layer. The **inner pages** (products/[slug], solutions,
+  quote, contact, etc.) are still the original **cyan** main-site design — re-skinning them to the
+  Lucien v2 palette is the next big chunk if the client approves the v2 direction.
 - **Logo:** keep the **original** (confirmed). Vectorized copy at `hud/logo-vector.svg`.
 - **RESPOND** act layout came from an ambiguous request — confirm/adjust with the user.
 - Pending fine-tuning the user may want: intro logo/wordmark size & spacing, HUD spacing, act pacing,
