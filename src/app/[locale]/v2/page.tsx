@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { NavV2 } from "@/components/v2/nav-v2";
 import { IntroDoors } from "@/components/v2/hero-doors";
 import { HeroV2 } from "@/components/v2/hero-v2";
+import { TrustStripV2 } from "@/components/v2/trust-strip-v2";
 import { SectionIntro } from "@/components/v2/section-intro";
 import { ScrollyCircle } from "@/components/v2/scrolly-circle";
 import { ProductsV2 } from "@/components/v2/products-v2";
@@ -47,8 +48,9 @@ export default async function V2Page({ params }: { params: Promise<{ locale: str
       <NavV2 locale={locale} />
       <IntroDoors />
       <HeroV2 locale={locale} />
+      <TrustStripV2 locale={locale} />
 
-      <section className="px-6 pt-24 sm:px-10">
+      <section id="how" className="scroll-mt-16 px-6 pt-24 sm:px-10">
         <SectionIntro
           eyebrow={_("Ako to funguje", "How it works")}
           title={_("Od nasadenia po reakciu", "From deployment to response")}

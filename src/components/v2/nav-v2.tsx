@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 
 import { Link } from "@/i18n/routing";
 import { pick } from "@/content/site";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 import { cn } from "@/lib/utils";
 
 export function NavV2({ locale }: { locale: string }) {
@@ -46,12 +47,20 @@ export function NavV2({ locale }: { locale: string }) {
         <span className="flex select-none items-center justify-center gap-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.png" alt="Seraf Technology" width={254} height={166} className="h-6 w-auto" />
-          <span className="font-mono-v2 text-sm font-medium uppercase tracking-[0.32em] text-foreground">
+          <span className="font-mono-v2 hidden text-sm font-medium uppercase tracking-[0.32em] text-foreground md:inline">
             SERAF&nbsp;TECHNOLOGY
           </span>
         </span>
 
-        <span aria-hidden />
+        <span className="flex items-center justify-end gap-3">
+          <LocaleSwitcher />
+          <Link
+            href="/quote"
+            className="hidden items-center rounded-full bg-foreground px-4 py-1.5 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90 sm:inline-flex"
+          >
+            {_("Nezáväzná ponuka", "Request a quote")}
+          </Link>
+        </span>
       </nav>
     </header>
   );

@@ -43,6 +43,10 @@ export function ContactV2({ locale }: { locale: string }) {
           </a>
         </div>
 
+        <p className="font-mono-v2 mt-5 text-xs uppercase tracking-[0.12em] text-muted-foreground">
+          {_("Odpoveď do 24 hodín · bezplatné a nezáväzné", "Reply within 24 hours · free & no obligation")}
+        </p>
+
         <div className="font-mono-v2 mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
           <a
             href={`mailto:${SITE.email}`}

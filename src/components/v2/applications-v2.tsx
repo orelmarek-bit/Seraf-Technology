@@ -1,3 +1,6 @@
+import { ArrowUpRight } from "lucide-react";
+
+import { Link } from "@/i18n/routing";
 import { pick } from "@/content/site";
 import { getSolutions } from "@/content/solutions";
 import { SectionIntro } from "./section-intro";
@@ -23,14 +26,19 @@ export function ApplicationsV2({ locale }: { locale: string }) {
           {solutions.map((s) => {
             const Icon = s.icon;
             return (
-              <div
+              <Link
                 key={s.slug}
-                className="group flex flex-col gap-3 bg-background p-7 transition-colors duration-200 hover:bg-card/60"
+                href={`/solutions/${s.slug}`}
+                className="group relative flex cursor-pointer flex-col gap-3 bg-background p-7 transition-colors duration-200 hover:bg-card/60"
               >
+                <ArrowUpRight
+                  className="absolute right-6 top-6 size-4 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                  aria-hidden
+                />
                 <Icon className="size-6 text-primary" aria-hidden />
                 <h3 className="mt-1 text-lg font-medium text-foreground">{s.title}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{s.short}</p>
-              </div>
+              </Link>
             );
           })}
         </div>

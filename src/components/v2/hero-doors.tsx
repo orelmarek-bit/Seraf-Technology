@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 
 const SEEN_KEY = "seraf-intro-seen";
 const HOLD_MS = 800; // logo held closed before parting
-const SLIDE_MS = 3600; // door slide duration (higher = slower)
+const SLIDE_MS = 2000; // door slide duration (higher = slower)
+const SKIP_SLIDE_MS = 650; // accelerated slide when the visitor interacts
 const EASE = "cubic-bezier(0.76, 0, 0.24, 1)";
 
 /**
@@ -17,6 +18,7 @@ const EASE = "cubic-bezier(0.76, 0, 0.24, 1)";
  */
 export function IntroDoors() {
   const [phase, setPhase] = useState<"closed" | "open" | "done">("closed");
+  const [slideMs, setSlideMs] = useState(SLIDE_MS);
 
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 768px)").matches;
@@ -30,19 +32,48 @@ export function IntroDoors() {
 
     window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
-    const t1 = setTimeout(() => {
-      setPhase("open");
-      window.dispatchEvent(new Event("seraf-intro-open"));
-    }, HOLD_MS);
-    const t2 = setTimeout(() => {
+
+    let openT: ReturnType<typeof setTimeout>;
+    let doneT: ReturnType<typeof setTimeout>;
+    let skipped = false;
+
+    const removeListeners = () => {
+      window.removeEventListener("wheel", skip);
+      window.removeEventListener("touchstart", skip);
+      window.removeEventListener("keydown", skip);
+      window.removeEventListener("pointerdown", skip);
+    };
+    const finish = () => {
       setPhase("done");
       sessionStorage.setItem(SEEN_KEY, "1");
       document.body.style.overflow = "";
-    }, HOLD_MS + SLIDE_MS);
+      removeListeners();
+    };
+    const open = (ms: number) => {
+      setSlideMs(ms);
+      setPhase("open");
+      window.dispatchEvent(new Event("seraf-intro-open"));
+      clearTimeout(doneT);
+      doneT = setTimeout(finish, ms + 60);
+    };
+    // Any interaction skips ahead: the doors part quickly instead of holding the visitor.
+    function skip() {
+      if (skipped) return;
+      skipped = true;
+      clearTimeout(openT);
+      open(SKIP_SLIDE_MS);
+    }
+
+    openT = setTimeout(() => open(SLIDE_MS), HOLD_MS);
+    window.addEventListener("wheel", skip, { passive: true });
+    window.addEventListener("touchstart", skip, { passive: true });
+    window.addEventListener("keydown", skip);
+    window.addEventListener("pointerdown", skip);
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
+      clearTimeout(openT);
+      clearTimeout(doneT);
+      removeListeners();
       document.body.style.overflow = "";
     };
   }, []);
@@ -59,7 +90,7 @@ export function IntroDoors() {
   );
   const opened = phase === "open";
   const doorBase = "absolute inset-y-0 w-1/2 overflow-hidden bg-[#080D2C]";
-  const trans = `transform ${SLIDE_MS}ms ${EASE}`;
+  const trans = `transform ${slideMs}ms ${EASE}`;
 
   // Full wordmark, centred over the logo (which straddles the seam). Rendered on
   // both doors and pinned to the seam so it splits down the middle exactly like

@@ -1,3 +1,6 @@
+import { ArrowRight, ArrowDown } from "lucide-react";
+
+import { Link } from "@/i18n/routing";
 import { pick } from "@/content/site";
 import { SpecTicker } from "./spec-ticker";
 
@@ -30,11 +33,27 @@ export function HeroV2({ locale }: { locale: string }) {
         }}
       />
 
-      {/* Headline */}
-      <div className="relative z-10 flex flex-1 items-center justify-center px-6">
+      {/* Headline + CTA pair */}
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-9 px-6">
         <h1 className="font-display-v2 text-gradient-v2 max-w-[14ch] text-center leading-[0.98] text-[clamp(2.9rem,8.2vw,7rem)]">
           {_("Každý pohyb pod kontrolou", "Every movement under control")}
         </h1>
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+          <Link
+            href="/quote"
+            className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90"
+          >
+            {_("Nezáväzná ponuka", "Request a quote")}
+            <ArrowRight className="size-4" />
+          </Link>
+          <a
+            href="#how"
+            className="font-mono-v2 inline-flex items-center gap-2 rounded-full border border-border px-7 py-3 text-sm text-foreground/80 transition-colors duration-200 hover:border-primary/50 hover:text-foreground"
+          >
+            {_("Ako to funguje", "See how it works")}
+            <ArrowDown className="size-4 text-primary" />
+          </a>
+        </div>
       </div>
 
       {/* Bottom row: subline + spec ticker */}
