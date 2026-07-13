@@ -8,13 +8,13 @@ import { Headset, Shield } from "lucide-react";
 import { pick } from "@/content/site";
 import { cn } from "@/lib/utils";
 
-interface Act {
+export interface Act {
   key: string;
   label: string;
   caption: string;
 }
 
-function useActs(): Act[] {
+export function useActs(): Act[] {
   const _ = pick(useLocale());
   return [
     { key: "deploy", label: _("NASADENIE", "DEPLOY"), caption: _("Veža nasadená a aktívna do 48 hodín.", "Tower deployed & live within 48 hours.") },
@@ -77,8 +77,8 @@ function Pinned({ acts }: { acts: Act[] }) {
   );
 }
 
-const showO = (on: boolean) => ({ opacity: on ? 1 : 0 });
-const showS = (on: boolean) => ({ opacity: on ? 1 : 0, scale: on ? 1 : 0.92 });
+export const showO = (on: boolean) => ({ opacity: on ? 1 : 0 });
+export const showS = (on: boolean) => ({ opacity: on ? 1 : 0, scale: on ? 1 : 0.92 });
 
 function Stage({ reveal }: { reveal: number }) {
   const acts = useActs();
@@ -262,7 +262,7 @@ function LabelOutside({
   );
 }
 
-function LockOn({ children }: { children: React.ReactNode }) {
+export function LockOn({ children }: { children: React.ReactNode }) {
   return (
     <span className="relative flex h-16 w-16 items-center justify-center">
       {["left-0 top-0", "right-0 top-0 rotate-90", "left-0 bottom-0 -rotate-90", "right-0 bottom-0 rotate-180"].map((p) => (
@@ -273,7 +273,7 @@ function LockOn({ children }: { children: React.ReactNode }) {
   );
 }
 
-function SirenArcs({ on }: { on: boolean }) {
+export function SirenArcs({ on }: { on: boolean }) {
   return (
     <>
       {[0, 0.5, 1, 1.5].map((d) => (
@@ -288,7 +288,7 @@ function SirenArcs({ on }: { on: boolean }) {
   );
 }
 
-function PcoNode() {
+export function PcoNode() {
   const pts = Array.from({ length: 6 }, (_, i) => {
     const a = (i / 6) * Math.PI * 2 - Math.PI / 2;
     return [50 + 34 * Math.cos(a), 50 + 34 * Math.sin(a)];
@@ -416,7 +416,7 @@ function Dial({ reveal }: { reveal: number }) {
 
 /* ---------- Mobile / reduced-motion fallback ---------- */
 
-function StaticList({ acts }: { acts: Act[] }) {
+export function StaticList({ acts }: { acts: Act[] }) {
   return (
     <ol className="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2">
       {acts.map((a, i) => (
