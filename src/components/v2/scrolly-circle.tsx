@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useLocale } from "next-intl";
-import { UserRound, Shield } from "lucide-react";
+import { Headset, Shield } from "lucide-react";
 
 import { pick } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -178,40 +178,40 @@ function Stage({ reveal }: { reveal: number }) {
       </div>
 
       {/* RESPOND visual — left quadrant.
-          Vertical notification chain: alarm ↓ PCO operator notified ↓ police alerted (158). */}
+          Escalation chain, read bottom → top: alarm ↑ PCO operator ↑ police alerted (158). */}
       <div className="absolute left-[9%] top-1/2 z-30 -translate-y-1/2">
         <motion.div animate={showS(reveal >= 4)} transition={{ duration: 0.45 }} className="flex flex-col items-center gap-1.5">
-          {/* 1 — the alarm arrives at the desk */}
-          <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
-            {_("Poplach", "Alarm")}
-          </span>
-          <svg viewBox="0 0 24 46" className="h-7 w-[15px] rotate-180 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
-            <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
-          </svg>
-
-          {/* 2 — PCO operator is notified */}
-          <div className="flex items-center gap-2">
-            <span className="flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
-              <UserRound className="size-5 text-[#080D2C]" />
-            </span>
-            <PcoNode />
-          </div>
-          <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
-            {_("Operátor PCO upozornený", "PCO operator notified")}
-          </span>
-
-          {/* 3 — the operator alerts the police */}
-          <svg viewBox="0 0 24 46" className="h-7 w-[15px] rotate-180 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
-            <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
-          </svg>
-          <div className="flex flex-col items-center gap-0.5">
-            <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
-              <Shield className="size-4 text-primary" />
-            </span>
-            <span className="font-mono-v2 text-xs font-semibold text-primary">158</span>
-          </div>
+          {/* TOP — police alerted */}
           <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
             {_("Polícia privolaná", "Police alerted")}
+          </span>
+          <span className="font-mono-v2 text-xs font-semibold text-primary">158</span>
+          <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
+            <Shield className="size-4 text-primary" />
+          </span>
+
+          {/* upward arrow */}
+          <svg viewBox="0 0 24 46" className="h-7 w-[15px] [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
+            <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
+          </svg>
+
+          {/* MIDDLE — PCO operator (headset + red alert dot, top-left) */}
+          <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
+            {_("Operátor PCO", "PCO operator")}
+          </span>
+          <span className="relative flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
+            <Headset className="size-5 text-[#080D2C]" />
+            <span className="absolute left-0.5 top-0.5 size-2.5 rounded-full bg-[#ff4d4f] ring-2 ring-[#080D2C] shadow-[0_0_6px_1px_rgba(255,77,79,0.85)]" />
+          </span>
+
+          {/* upward arrow */}
+          <svg viewBox="0 0 24 46" className="h-7 w-[15px] [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
+            <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
+          </svg>
+
+          {/* BOTTOM — the alarm */}
+          <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
+            {_("Poplach", "Alarm")}
           </span>
         </motion.div>
       </div>
@@ -267,24 +267,6 @@ function SirenArcs({ on }: { on: boolean }) {
         />
       ))}
     </>
-  );
-}
-
-function PcoNode() {
-  const pts = Array.from({ length: 6 }, (_, i) => {
-    const a = (i / 6) * Math.PI * 2 - Math.PI / 2;
-    return [50 + 34 * Math.cos(a), 50 + 34 * Math.sin(a)];
-  });
-  return (
-    <svg viewBox="0 0 100 100" className="size-11 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
-      {pts.map(([x, y], i) => (
-        <line key={i} x1="50" y1="50" x2={x} y2={y} stroke="#5c9cff" strokeWidth="1.5" strokeOpacity="0.5" />
-      ))}
-      {pts.map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r="6" fill="#5c9cff" fillOpacity="0.85" />
-      ))}
-      <circle cx="50" cy="50" r="9" fill="#5c9cff" />
-    </svg>
   );
 }
 
