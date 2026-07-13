@@ -196,10 +196,16 @@
   }
 }
 
-/* Flowing dash along the HUD loop arrows */
-@keyframes v2-flow {
+/* Expanding siren shockwave ring (HUD DETER act) — GPU transform + opacity,
+   runs off the main thread so it stays smooth during the pinned scroll. */
+@keyframes v2-siren {
+  from {
+    transform: scale(0.4);
+    opacity: 0.8;
+  }
   to {
-    stroke-dashoffset: -14;
+    transform: scale(4);
+    opacity: 0;
   }
 }
 

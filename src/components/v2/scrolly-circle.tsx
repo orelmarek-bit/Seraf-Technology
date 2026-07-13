@@ -66,7 +66,7 @@ function Pinned({ acts }: { acts: Act[] }) {
             key={reveal}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: reveal === 0 ? 0.6 : 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.4, ease: EASE_OUT }}
             className="text-sm text-muted-foreground"
           >
             {reveal === 0 ? _("Skrolujte a sledujte, ako to funguje", "Scroll to see how it works") : acts[active].caption}
@@ -79,6 +79,10 @@ function Pinned({ acts }: { acts: Act[] }) {
 
 const showO = (on: boolean) => ({ opacity: on ? 1 : 0 });
 const showS = (on: boolean) => ({ opacity: on ? 1 : 0, scale: on ? 1 : 0.92 });
+
+// Strong ease-out for entering elements — responsive at the moment attention lands.
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
+const revealT = { duration: 0.45, ease: EASE_OUT };
 
 function Stage({ reveal }: { reveal: number }) {
   const acts = useActs();
@@ -106,7 +110,7 @@ function Stage({ reveal }: { reveal: number }) {
         {/* Volumetric cone — emanates from the camera reflector at the tower top, shining down */}
         <motion.div
           animate={showO(reveal >= 1)}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, ease: EASE_OUT }}
           className="pointer-events-none absolute left-1/2 top-[24%] h-[46%] w-[34%] -translate-x-1/2 blur-[3px]"
           style={{
             clipPath: "polygon(46% 0, 54% 0, 100% 100%, 0 100%)",
@@ -116,7 +120,7 @@ function Stage({ reveal }: { reveal: number }) {
         {/* Lamp / camera reflector source */}
         <motion.span
           animate={showO(reveal >= 1)}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, ease: EASE_OUT }}
           className="pointer-events-none absolute left-1/2 top-[24%] size-3 -translate-x-1/2 rounded-full bg-white shadow-[0_0_20px_7px_rgba(214,230,255,0.8)]"
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -138,7 +142,7 @@ function Stage({ reveal }: { reveal: number }) {
 
       {/* DEPLOY visual — 24/7 · LIVE, above the lamp */}
       <div className="absolute left-1/2 top-[11%] z-30 -translate-x-1/2">
-        <motion.div animate={showS(reveal >= 1)} transition={{ duration: 0.45 }}>
+        <motion.div animate={showS(reveal >= 1)} transition={revealT}>
           <span className="font-mono-v2 rounded-full border border-primary/50 bg-primary/15 px-4 py-1.5 text-sm font-medium text-primary shadow-[0_0_20px_-4px_#5c9cff]">
             24/7 · LIVE
           </span>
@@ -147,7 +151,7 @@ function Stage({ reveal }: { reveal: number }) {
 
       {/* DETECT visual — right quadrant */}
       <div className="absolute right-[9%] top-1/2 z-30 -translate-y-1/2">
-        <motion.div animate={showS(reveal >= 2)} transition={{ duration: 0.45 }} className="relative flex flex-col items-center gap-1.5">
+        <motion.div animate={showS(reveal >= 2)} transition={revealT} className="relative flex flex-col items-center gap-1.5">
           <span className="font-mono-v2 text-xs font-semibold uppercase tracking-widest text-primary">AI lock-on</span>
           <span className="font-mono-v2 text-sm font-semibold text-primary">360°</span>
           <LockOn>
@@ -164,7 +168,7 @@ function Stage({ reveal }: { reveal: number }) {
 
       {/* DETER visual — bottom quadrant */}
       <div className="absolute bottom-[12%] left-1/2 z-30 -translate-x-1/2">
-        <motion.div animate={showS(reveal >= 3)} transition={{ duration: 0.45 }} className="flex flex-col items-center">
+        <motion.div animate={showS(reveal >= 3)} transition={revealT} className="flex flex-col items-center">
           <span className="font-mono-v2 mb-1 text-xs font-semibold uppercase tracking-widest text-primary">Siren shockwave</span>
           <div className="relative flex h-16 w-64 items-center justify-center">
             <SirenArcs on={reveal >= 3} />
@@ -180,7 +184,7 @@ function Stage({ reveal }: { reveal: number }) {
       {/* RESPOND visual — left quadrant.
           Escalation chain, read bottom → top: alarm ↑ PCO operator ↑ police alerted (158). */}
       <div className="absolute left-[9%] top-1/2 z-30 -translate-y-1/2">
-        <motion.div animate={showS(reveal >= 4)} transition={{ duration: 0.45 }} className="flex flex-col items-center gap-1.5">
+        <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex flex-col items-center gap-1.5">
           {/* TOP — police alerted */}
           <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
             {_("Polícia privolaná", "Police alerted")}
@@ -238,7 +242,7 @@ function LabelOutside({ children, pos, on }: { children: React.ReactNode; pos: "
     <div className="pointer-events-none absolute z-30" style={wrap[pos]}>
       <motion.span
         animate={showO(on)}
-        transition={{ duration: 0.45 }}
+        transition={revealT}
         className="block font-[family-name:var(--font-space-grotesk)] text-[clamp(1.6rem,3.4vw,3rem)] font-bold tracking-tight text-foreground/90"
         style={vertical ? { writingMode: "vertical-rl", transform: pos === "left" ? "rotate(180deg)" : undefined } : undefined}
       >
@@ -260,14 +264,16 @@ function LockOn({ children }: { children: React.ReactNode }) {
 }
 
 function SirenArcs({ on }: { on: boolean }) {
+  // CSS keyframe (transform + opacity) rather than a Framer Motion `scale`
+  // shorthand: it runs on the compositor, off the main thread, so the four
+  // infinite ripples stay smooth while the pinned section is being scrolled.
   return (
     <>
       {[0, 0.5, 1, 1.5].map((d) => (
-        <motion.span
+        <span
           key={d}
-          className="absolute size-8 rounded-full border-2 border-primary/70 [filter:drop-shadow(0_0_6px_#5c9cff)]"
-          animate={on ? { scale: [0.4, 4], opacity: [0.8, 0] } : { opacity: 0 }}
-          transition={{ duration: 2, repeat: on ? Infinity : 0, ease: "easeOut", delay: d }}
+          className="absolute size-8 rounded-full border-2 border-primary/70 opacity-0 [filter:drop-shadow(0_0_6px_#5c9cff)]"
+          style={on ? { animation: `v2-siren 2s ${d}s ease-out infinite` } : undefined}
         />
       ))}
     </>
