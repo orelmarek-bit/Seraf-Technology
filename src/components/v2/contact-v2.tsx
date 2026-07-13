@@ -50,7 +50,7 @@ export function ContactV2({ locale }: { locale: string }) {
         <div className="font-mono-v2 mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
           <a
             href={`mailto:${SITE.email}`}
-            className="inline-flex items-center gap-2 transition-colors hover:text-foreground"
+            className="inline-flex items-center gap-2 py-3 transition-colors hover:text-foreground"
           >
             <Mail className="size-4 text-primary" />
             {SITE.email}
@@ -59,7 +59,7 @@ export function ContactV2({ locale }: { locale: string }) {
             href={SITE.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 transition-colors hover:text-foreground"
+            className="inline-flex items-center gap-2 py-3 transition-colors hover:text-foreground"
           >
             <Linkedin className="size-4 text-primary" />
             LinkedIn

@@ -19,7 +19,7 @@ export function FooterV2({ locale }: { locale: string }) {
         <div className="flex flex-col gap-6 py-12 sm:flex-row sm:items-center sm:justify-between">
           <div className="font-mono-v2 flex flex-wrap gap-x-7 gap-y-3 text-sm text-muted-foreground">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="inline-flex items-center gap-2 transition-colors hover:text-foreground">
+              <Link key={l.href} href={l.href} className="inline-flex items-center gap-2 py-3 transition-colors hover:text-foreground">
                 <ArrowRight className="size-3.5 text-primary" />
                 {l.label}
               </Link>

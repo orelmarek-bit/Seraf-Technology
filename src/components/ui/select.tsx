@@ -11,7 +11,8 @@ export const Select = React.forwardRef<
     <select
       ref={ref}
       className={cn(
-        "flex h-11 w-full appearance-none rounded-md border border-input bg-background px-3.5 pr-10 text-sm transition-colors hover:border-primary/40 disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-danger cursor-pointer",
+        // text-base below md prevents iOS Safari's auto-zoom on focus (<16px inputs)
+        "flex h-11 w-full appearance-none rounded-md border border-input bg-background px-3.5 pr-10 text-base transition-colors hover:border-primary/40 disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-danger cursor-pointer md:text-sm",
         className
       )}
       {...props}

@@ -73,8 +73,8 @@ export default async function V2QuotePage({ params }: { params: Promise<{ locale
         </div>
 
         <div className="mt-16 grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
-          {/* Reassurance + direct contact */}
-          <aside className="flex flex-col gap-5">
+          {/* Reassurance + direct contact — after the form on mobile, left column on desktop */}
+          <aside className="order-2 flex flex-col gap-5 lg:order-1">
             {reassurance.map((item) => {
               const Icon = item.icon;
               return (
@@ -111,7 +111,7 @@ export default async function V2QuotePage({ params }: { params: Promise<{ locale
           </aside>
 
           {/* The form is token-driven, so it renders in the v2 palette automatically */}
-          <div>
+          <div className="order-1 lg:order-2">
             <QuoteForm />
           </div>
         </div>
