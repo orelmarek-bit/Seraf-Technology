@@ -38,7 +38,7 @@ export function NavV2({ locale, introAware = true }: { locale: string; introAwar
     >
       <nav className="mx-auto grid max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center px-6 py-6 sm:px-10">
         <Link
-          href="/why-seraf"
+          href="/v2/why-seraf"
           className="font-mono-v2 inline-flex w-fit items-center gap-2 py-3 text-sm text-foreground/80 transition-colors hover:text-foreground"
         >
           <ArrowRight className="size-3.5 text-primary" />

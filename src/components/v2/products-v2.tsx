@@ -107,7 +107,7 @@ export function ProductsV2({ locale }: { locale: string }) {
                 </dl>
 
                 <Link
-                  href={`/products/${p.slug}`}
+                  href={`/v2/products/${p.slug}`}
                   className="font-mono-v2 mt-7 inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors hover:text-primary"
                 >
                   {_("Detail modelu", "View model")}

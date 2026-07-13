@@ -182,10 +182,16 @@ Repo is initialized in `seraf-technology/`.
 
 ## 10. Open items / next steps
 
-- The `/v2` **homepage now carries the full content** (products, applications, why/stats, FAQ,
-  contact) pulled from the shared content layer. The **inner pages** (products/[slug], solutions,
-  quote, contact, etc.) are still the original **cyan** main-site design — re-skinning them to the
-  Lucien v2 palette is the next big chunk if the client approves the v2 direction.
+- **The v2 world is now complete and self-contained.** Inner pages exist under `/v2/*`:
+  `products/[slug]`, `solutions/[slug]`, `why-seraf`, `contact`, `legal/[doc]`, `quote` —
+  all built on `ShellV2` + `PageIntroV2` (`src/components/v2/shell-v2.tsx`), all `noindex`,
+  all reusing the shared bilingual content getters. Every v2 link (nav, footer, cards, CTAs)
+  stays inside `/v2/*`. The old cyan main site remains untouched at the root paths.
+- **DEV-SERVER GOTCHA (recurring this session):** preview-managed dev servers die between
+  turns; repeated kills mid-write corrupt `.next` → every route 500s with
+  `SyntaxError: Unexpected non-whitespace character after JSON` from manifest reads.
+  Fix: stop server, `rm -rf .next`, restart, then warm routes **sequentially** (parallel
+  fetch storms on a cold server also trigger manifest read/write races on Windows).
 - **Logo:** keep the **original** (confirmed). Vectorized copy at `hud/logo-vector.svg`.
 - **RESPOND** act layout came from an ambiguous request — confirm/adjust with the user.
 - Pending fine-tuning the user may want: intro logo/wordmark size & spacing, HUD spacing, act pacing,

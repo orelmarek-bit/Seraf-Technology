@@ -7,10 +7,10 @@ export function FooterV2({ locale }: { locale: string }) {
   const year = new Date().getFullYear();
 
   const links = [
-    { label: _("O nás", "About"), href: "/why-seraf" },
-    { label: _("Kontakt", "Contact"), href: "/contact" },
-    { label: _("Ochrana súkromia", "Privacy"), href: "/legal/privacy" },
-    { label: _("Podmienky", "Terms"), href: "/legal/terms" },
+    { label: _("O nás", "About"), href: "/v2/why-seraf" },
+    { label: _("Kontakt", "Contact"), href: "/v2/contact" },
+    { label: _("Ochrana súkromia", "Privacy"), href: "/v2/legal/privacy" },
+    { label: _("Podmienky", "Terms"), href: "/v2/legal/terms" },
   ];
 
   return (

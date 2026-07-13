@@ -28,7 +28,7 @@ export function ApplicationsV2({ locale }: { locale: string }) {
             return (
               <Link
                 key={s.slug}
-                href={`/solutions/${s.slug}`}
+                href={`/v2/solutions/${s.slug}`}
                 className="group relative flex cursor-pointer flex-col gap-3 bg-background p-7 transition-colors duration-200 hover:bg-card/60"
               >
                 <ArrowUpRight
