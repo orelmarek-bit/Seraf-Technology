@@ -92,15 +92,12 @@ v2 re-skin of inner pages is not done yet).
   under control"), subline, and a cycling mono **SpecTicker** (spec-ticker.tsx).
 - **section-intro.tsx** — Lucien signature: mono eyebrow in a thin box → vertical connector line →
   big light headline.
-- **scrolly-flow.tsx** — the CURRENT **"How it works" HUD** (variant A, horizontal flow):
-  tower on top overseeing (DEPLOY label + 24/7·LIVE above it, spotlight cone down), then
-  **DETECT → DETER → RESPOND** as a left-to-right row of panels with glowing arrows, plus a
-  dashed **return arrow** ("the cycle repeats"). Chosen by the user 2026-07-13 over the circle.
-  Shares primitives (`useActs`, `LockOn`, `SirenArcs`, `PcoNode`, `StaticList`, `showO/showS`)
-  exported from scrolly-circle.tsx.
-- **scrolly-circle.tsx** — the OLD circular HUD (no longer used on the homepage; kept as the
-  source of the shared primitives). **scrolly-scene.tsx** — variant B ("scene on a ground line"),
-  built for the A/B comparison, not selected. Preview pages: `/v2/hud-a`, `/v2/hud-b` (noindex).
+- **scrolly-circle.tsx** — the circular **"Threat Loop" HUD** (see §5). This is the
+  4-act circle (DEPLOY top · DETECT right · DETER bottom · RESPOND left, vertical
+  alarm↓PCO↓police chain). The user tried a 3-act cycle and two alternative layouts
+  (horizontal "flow" + a "scene") on 2026-07-13 and **rejected all of them** ("very empty"),
+  reverting to this 4-act circle. Those experiments (scrolly-flow.tsx, scrolly-scene.tsx,
+  /v2/hud-a, /v2/hud-b) have been deleted — recoverable from git around commit 6def9e1 if ever wanted.
 - **footer-v2.tsx** — mono `→` links + a **giant "SERAF"** wordmark finale.
 
 ## 5. The "Threat Loop" HUD (`scrolly-circle.tsx`) — key detail
