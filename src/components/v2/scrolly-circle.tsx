@@ -201,7 +201,11 @@ function Stage({ reveal }: { reveal: number }) {
           </span>
           <span className="relative flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
             <Headset className="size-5 text-[#080D2C]" />
-            <span className="absolute left-0.5 top-0.5 size-2.5 rounded-full bg-[#ff4d4f] ring-2 ring-[#080D2C] shadow-[0_0_6px_1px_rgba(255,77,79,0.85)]" />
+            {/* small pulsing/glowing red alert dot, top-left */}
+            <span className="absolute left-1.5 top-1.5 flex size-1.5">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#ff4d4f] opacity-80" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-[#ff4d4f] shadow-[0_0_5px_1.5px_rgba(255,77,79,0.95)]" />
+            </span>
           </span>
 
           {/* upward arrow */}
