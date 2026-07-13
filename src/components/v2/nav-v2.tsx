@@ -57,7 +57,7 @@ export function NavV2({ locale, introAware = true }: { locale: string; introAwar
           <LocaleSwitcher />
           <Link
             href="/v2/quote"
-            className="hidden items-center rounded-full bg-foreground px-4 py-1.5 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90 sm:inline-flex"
+            className="cta-pill hidden items-center px-4 py-1.5 text-sm sm:inline-flex"
           >
             {_("Nezáväzná ponuka", "Request a quote")}
           </Link>

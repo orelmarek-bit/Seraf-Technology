@@ -41,7 +41,7 @@ export function HeroV2({ locale }: { locale: string }) {
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
           <Link
             href="/v2/quote"
-            className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90"
+            className="cta-pill inline-flex items-center gap-2 px-7 py-3 text-sm"
           >
             {_("Nezáväzná ponuka", "Request a quote")}
             <ArrowRight className="size-4" />

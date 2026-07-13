@@ -84,7 +84,7 @@ export default async function V2ProductDetailPage({
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/v2/quote"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90"
+              className="cta-pill inline-flex items-center justify-center gap-2 px-7 py-3 text-sm"
             >
               {_("Nezáväzná ponuka", "Request a quote")}
               <ArrowRight className="size-4" />

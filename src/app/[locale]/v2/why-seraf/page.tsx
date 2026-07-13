@@ -137,7 +137,7 @@ export default async function V2WhySerafPage({ params }: { params: Promise<{ loc
         </p>
         <Link
           href="/v2/quote"
-          className="mt-8 inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm font-medium text-background transition-opacity duration-200 hover:opacity-90"
+          className="cta-pill mt-8 inline-flex items-center gap-2 px-7 py-3 text-sm"
         >
           {_("Nezáväzná ponuka", "Request a quote")}
           <ArrowRight className="size-4" />
