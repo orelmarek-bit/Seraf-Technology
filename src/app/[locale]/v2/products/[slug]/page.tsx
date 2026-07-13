@@ -43,7 +43,7 @@ export default async function V2ProductDetailPage({
   return (
     <ShellV2 locale={locale}>
       <PageIntroV2
-        eyebrow={product.highlighted ? _("Odporúčaný model", "Recommended model") : _("Model veže", "Tower model")}
+        eyebrow={_("Model veže", "Tower model")}
         title={product.name}
         subtitle={product.summary}
       />

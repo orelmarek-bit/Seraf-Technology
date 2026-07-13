@@ -1,6 +1,7 @@
 import { pick } from "@/content/site";
 import { getPillars, getStats } from "@/content/home";
 import { SectionIntro } from "./section-intro";
+import { StatCounterV2 } from "./stat-counter-v2";
 
 /** Credibility band (stats) + benefit pillars, styled for the v2 palette. */
 export function WhyV2({ locale }: { locale: string }) {
@@ -23,15 +24,7 @@ export function WhyV2({ locale }: { locale: string }) {
         {/* Stats band */}
         <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border lg:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="flex flex-col gap-1 bg-background px-6 py-8 text-center">
-              <span className="font-display-v2 text-gradient-v2 text-[clamp(2.4rem,5vw,3.4rem)] leading-none">
-                {s.value}
-                {s.suffix}
-              </span>
-              <span className="font-mono-v2 mt-2 text-xs uppercase tracking-wide text-muted-foreground">
-                {s.label}
-              </span>
-            </div>
+            <StatCounterV2 key={s.label} value={s.value} suffix={s.suffix} label={s.label} />
           ))}
         </div>
 

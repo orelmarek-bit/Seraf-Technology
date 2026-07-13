@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useLocale } from "next-intl";
-import { UserRound, Shield } from "lucide-react";
+import { Headset, Shield } from "lucide-react";
 
 import { pick } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -87,11 +87,21 @@ function Stage({ reveal }: { reveal: number }) {
     <div className="relative aspect-square h-[min(74vh,760px)] max-w-[92vw]">
       <Dial reveal={reveal} />
 
-      {/* Labels — OUTSIDE the outer ring */}
-      <LabelOutside pos="top" on={reveal >= 1}>{acts[0].label}</LabelOutside>
+      {/* DEPLOY — annotation on the tower itself: a one-time act, NOT part of the loop */}
+      <div className="pointer-events-none absolute left-1/2 top-[3%] z-30 -translate-x-1/2">
+        <motion.span
+          animate={showO(reveal >= 1)}
+          transition={{ duration: 0.45 }}
+          className="block text-center font-[family-name:var(--font-space-grotesk)] text-[clamp(1.4rem,2.6vw,2.1rem)] font-bold tracking-tight text-foreground/90"
+        >
+          {acts[0].label}
+        </motion.span>
+      </div>
+
+      {/* Loop labels — the 3 recurring acts, OUTSIDE the outer ring at 120° spacing */}
       <LabelOutside pos="right" on={reveal >= 2}>{acts[1].label}</LabelOutside>
-      <LabelOutside pos="bottom" on={reveal >= 3}>{acts[2].label}</LabelOutside>
-      <LabelOutside pos="left" on={reveal >= 4}>{acts[3].label}</LabelOutside>
+      <LabelOutside pos="bottomLeft" on={reveal >= 3}>{acts[2].label}</LabelOutside>
+      <LabelOutside pos="topLeft" on={reveal >= 4}>{acts[3].label}</LabelOutside>
 
       {/* Center: platform + glow + spotlight + lamp + tower */}
       <div className="absolute inset-0 z-20 flex items-center justify-center">
@@ -162,8 +172,8 @@ function Stage({ reveal }: { reveal: number }) {
         </motion.div>
       </div>
 
-      {/* DETER visual — bottom quadrant */}
-      <div className="absolute bottom-[12%] left-1/2 z-30 -translate-x-1/2">
+      {/* DETER visual — bottom-left sector */}
+      <div className="absolute bottom-[9%] left-[30%] z-30 -translate-x-1/2">
         <motion.div animate={showS(reveal >= 3)} transition={{ duration: 0.45 }} className="flex flex-col items-center">
           <span className="font-mono-v2 mb-1 text-xs font-semibold uppercase tracking-widest text-primary">Siren shockwave</span>
           <div className="relative flex h-16 w-64 items-center justify-center">
@@ -177,24 +187,25 @@ function Stage({ reveal }: { reveal: number }) {
         </motion.div>
       </div>
 
-      {/* RESPOND visual — left quadrant.
-          Vertical notification chain: alarm ↓ PCO operator notified ↓ police alerted (158). */}
-      <div className="absolute left-[9%] top-1/2 z-30 -translate-y-1/2">
+      {/* RESPOND visual — top-left sector.
+          The alarm comes FROM the tower (to the lower right of this group):
+          tower →(alarm)→ PCO operator (headset) ↓ police alerted (158). */}
+      <div className="absolute left-[6%] top-[30%] z-30 -translate-y-1/2">
         <motion.div animate={showS(reveal >= 4)} transition={{ duration: 0.45 }} className="flex flex-col items-center gap-1.5">
-          {/* 1 — the alarm arrives at the desk */}
+          {/* 1 — alarm signal arriving from the tower */}
           <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
-            {_("Poplach", "Alarm")}
+            {_("Poplach z veže", "Alarm from the tower")}
           </span>
-          <svg viewBox="0 0 24 46" className="h-7 w-[15px] rotate-180 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
-            <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
-          </svg>
-
-          {/* 2 — PCO operator is notified */}
           <div className="flex items-center gap-2">
+            {/* 2 — PCO operator (headset) is notified */}
             <span className="flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
-              <UserRound className="size-5 text-[#080D2C]" />
+              <Headset className="size-5 text-[#080D2C]" />
             </span>
             <PcoNode />
+            {/* bold arrow pointing left INTO the operator — from the tower's direction */}
+            <svg viewBox="0 0 46 24" className="h-4 w-8 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
+              <path d="M1 12 L19 1 V8 H45 V16 H19 V23 Z" fill="#5c9cff" />
+            </svg>
           </div>
           <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
             {_("Operátor PCO upozornený", "PCO operator notified")}
@@ -220,23 +231,30 @@ function Stage({ reveal }: { reveal: number }) {
 }
 
 /* Big act label, positioned OUTSIDE the outer ring. */
-function LabelOutside({ children, pos, on }: { children: React.ReactNode; pos: "top" | "right" | "bottom" | "left"; on: boolean }) {
-  // Anchor each label just outside its stage edge, centred on the perpendicular
-  // axis — keeps all four symmetric and in line with the ring.
+function LabelOutside({
+  children,
+  pos,
+  on,
+}: {
+  children: React.ReactNode;
+  pos: "right" | "bottomLeft" | "topLeft";
+  on: boolean;
+}) {
+  // The 3 loop acts sit at 120° spacing: DETECT right (0°), DETER bottom-left
+  // (120°), RESPOND top-left (240°) — anchored just outside the ring.
   const wrap: Record<string, React.CSSProperties> = {
-    top: { left: "50%", bottom: "100%", transform: "translateX(-50%) translateY(-8px)" },
-    bottom: { left: "50%", top: "100%", transform: "translateX(-50%) translateY(8px)" },
     right: { top: "50%", left: "100%", transform: "translateY(-50%) translateX(8px)" },
-    left: { top: "50%", right: "100%", transform: "translateY(-50%) translateX(-8px)" },
+    bottomLeft: { left: "21%", top: "100%", transform: "translate(-50%, 6px)" },
+    topLeft: { left: "21%", bottom: "100%", transform: "translate(-50%, -6px)" },
   };
-  const vertical = pos === "right" || pos === "left";
+  const vertical = pos === "right";
   return (
     <div className="pointer-events-none absolute z-30" style={wrap[pos]}>
       <motion.span
         animate={showO(on)}
         transition={{ duration: 0.45 }}
         className="block font-[family-name:var(--font-space-grotesk)] text-[clamp(1.6rem,3.4vw,3rem)] font-bold tracking-tight text-foreground/90"
-        style={vertical ? { writingMode: "vertical-rl", transform: pos === "left" ? "rotate(180deg)" : undefined } : undefined}
+        style={vertical ? { writingMode: "vertical-rl" } : undefined}
       >
         {children}
       </motion.span>
@@ -290,7 +308,8 @@ function PcoNode() {
 
 function Dial({ reveal }: { reveal: number }) {
   const ticks = Array.from({ length: 72 });
-  const wedges = [45, 135, 225, 315];
+  // 3 loop sectors (DETECT right, DETER bottom-left, RESPOND top-left) → dividers at 60/180/300°.
+  const wedges = [60, 180, 300];
   return (
     <svg viewBox="0 0 100 100" className="absolute inset-0 z-0 h-full w-full overflow-visible" aria-hidden>
       <defs>
@@ -303,9 +322,9 @@ function Dial({ reveal }: { reveal: number }) {
         </radialGradient>
       </defs>
 
-      {/* DETECT radar fan — fills the right wedge */}
+      {/* DETECT radar fan — fills the right sector (±60°) */}
       <path
-        d="M64.9 36.6 L84.9 18.6 A47 47 0 0 1 84.9 81.4 L64.9 63.4 A20 20 0 0 0 64.9 36.6 Z"
+        d="M60 32.7 L73.5 9.3 A47 47 0 0 1 73.5 90.7 L60 67.3 A20 20 0 0 0 60 32.7 Z"
         fill="url(#detectFan)"
         style={{ opacity: reveal >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }}
       />
@@ -321,7 +340,7 @@ function Dial({ reveal }: { reveal: number }) {
               calcMode="spline"
               keyTimes="0;1"
               keySplines="0.25 0.1 0.3 1"
-              values="M55.9 44.6 A8 8 0 0 1 55.9 55.4; M84.9 18.6 A47 47 0 0 1 84.9 81.4"
+              values="M54 43.1 A8 8 0 0 1 54 56.9; M73.5 9.3 A47 47 0 0 1 73.5 90.7"
             />
             <animate attributeName="opacity" dur="2.7s" begin={`${delay}s`} repeatCount="indefinite" values="0.75;0.75;0" keyTimes="0;0.15;1" />
           </path>
@@ -351,7 +370,7 @@ function Dial({ reveal }: { reveal: number }) {
       {/* single fainter inner ring closer to centre */}
       <circle cx="50" cy="50" r="34" fill="none" stroke="#5c9cff" strokeOpacity="0.12" strokeWidth="0.3" />
 
-      {/* wedge dividers between the four quadrants */}
+      {/* wedge dividers between the three loop sectors */}
       {wedges.map((deg) => {
         const a = (deg * Math.PI) / 180;
         return (
@@ -369,12 +388,12 @@ function Dial({ reveal }: { reveal: number }) {
         );
       })}
 
-      {/* clockwise arrows — outer loop OUTSIDE the ring, gaps at the cardinal labels */}
+      {/* clockwise cycle arrows — the recurring 3-act loop, OUTSIDE the ring,
+          gaps at the labels. The loop closes (RESPOND → DETECT): the tower keeps watching. */}
       {[
-        { d: "M66.7 -1.4 A54 54 0 0 1 101.4 33.3", at: 2 },
-        { d: "M101.4 66.7 A54 54 0 0 1 66.7 101.4", at: 3 },
-        { d: "M33.3 101.4 A54 54 0 0 1 -1.4 66.7", at: 4 },
-        { d: "M-1.4 33.3 A54 54 0 0 1 33.3 -1.4", at: 1 },
+        { d: "M103.2 59.4 A54 54 0 0 1 31.5 100.8", at: 3 }, // DETECT → DETER
+        { d: "M15.3 91.4 A54 54 0 0 1 15.3 8.6", at: 4 }, // DETER → RESPOND
+        { d: "M31.5 -0.8 A54 54 0 0 1 103.2 40.6", at: 4 }, // RESPOND → DETECT (repeats)
       ].map((arc, i) => (
         <path
           key={i}

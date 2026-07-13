@@ -6,6 +6,7 @@ import { pick } from "@/content/site";
 import { getPillars, getStats } from "@/content/home";
 import { routing, Link } from "@/i18n/routing";
 import { ShellV2, PageIntroV2 } from "@/components/v2/shell-v2";
+import { StatCounterV2 } from "@/components/v2/stat-counter-v2";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -103,15 +104,7 @@ export default async function V2WhySerafPage({ params }: { params: Promise<{ loc
       {/* Stats band */}
       <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border lg:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.label} className="flex flex-col gap-1 bg-background px-6 py-8 text-center">
-            <span className="font-display-v2 text-gradient-v2 text-[clamp(2.4rem,5vw,3.4rem)] leading-none">
-              {s.value}
-              {s.suffix}
-            </span>
-            <span className="font-mono-v2 mt-2 text-xs uppercase tracking-wide text-muted-foreground">
-              {s.label}
-            </span>
-          </div>
+          <StatCounterV2 key={s.label} value={s.value} suffix={s.suffix} label={s.label} />
         ))}
       </div>
 

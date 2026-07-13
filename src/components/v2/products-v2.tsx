@@ -3,13 +3,16 @@ import { ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { pick } from "@/content/site";
 import { getProducts } from "@/content/products";
-import { cn } from "@/lib/utils";
 import { SectionIntro } from "./section-intro";
 
 /** Lucien-style tower line-up: three model cards with mono spec tables. */
 export function ProductsV2({ locale }: { locale: string }) {
   const _ = pick(locale);
-  const products = getProducts(locale);
+  // v2 order: BASIC → BASIC SOLAR → PRO Lights, no highlighted/recommended card.
+  const order = ["basic", "basic-solar", "pro-lights"];
+  const products = [...getProducts(locale)].sort(
+    (a, b) => order.indexOf(a.slug) - order.indexOf(b.slug)
+  );
 
   return (
     <section id="products" className="px-6 py-28 sm:px-10">
@@ -64,19 +67,8 @@ export function ProductsV2({ locale }: { locale: string }) {
             return (
               <div
                 key={p.slug}
-                className={cn(
-                  "group relative flex flex-col rounded-lg border bg-card/40 p-7 transition-colors duration-200",
-                  p.highlighted
-                    ? "border-primary/50 bg-primary/[0.06]"
-                    : "border-border hover:border-primary/40"
-                )}
+                className="group relative flex flex-col rounded-lg border border-border bg-card/40 p-7 transition-colors duration-200 hover:border-primary/40"
               >
-                {p.highlighted && (
-                  <span className="eyebrow-v2 absolute -top-3 left-7 bg-background">
-                    {_("Odporúčané", "Recommended")}
-                  </span>
-                )}
-
                 <div className="flex items-center justify-between">
                   <Icon className="size-6 text-primary" aria-hidden />
                   <span className="font-mono-v2 text-xs text-muted-foreground">

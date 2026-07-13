@@ -101,6 +101,10 @@ Recreation of a user-provided concept image (`public/Threat Loop.png`) as clean 
 in the navy/`#5C9CFF` palette. A **pinned scroll section (~420vh)** where a radar dial reveals **4
 acts cumulatively** as you scroll: `reveal 0` (tower only) → 1 DEPLOY → 2 DETECT → 3 DETER → 4 RESPOND.
 Progressive enhancement: desktop ≥1024px → pinned HUD; mobile/reduced-motion → static 4-card list.
+**Loop semantics (user-confirmed 2026-07-13):** DEPLOY is a ONE-TIME act — its label is an
+annotation above the tower, NOT part of the circle. The recurring loop is only the 3 acts:
+DETECT (right, 0°) → DETER (bottom-left, 120°) → RESPOND (top-left, 240°), dividers at
+60/180/300°, 3 clockwise arrows incl. RESPOND→DETECT closing the cycle.
 
 - **Dial (SVG):** outer ring + 72 ticks; one faint inner ring; 4 diagonal **wedge dividers** (glow);
   4 **clockwise glowing arrows OUTSIDE the ring** (thin, small arrowheads, **solid** — the flowing-dash

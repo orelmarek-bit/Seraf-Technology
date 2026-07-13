@@ -56,8 +56,8 @@ export default async function V2Page({ params }: { params: Promise<{ locale: str
           eyebrow={_("Ako to funguje", "How it works")}
           title={_("Od nasadenia po reakciu", "From deployment to response")}
           subtitle={_(
-            "Skrolujte a sledujte, ako veža chráni váš objekt v štyroch krokoch.",
-            "Scroll to watch the tower protect your site in four steps."
+            "Vežu nasadíme raz — potom chráni v nepretržitom cykle: detekcia, odstrašenie, reakcia.",
+            "We deploy the tower once — then it protects in a continuous cycle: detect, deter, respond."
           )}
         />
       </section>
