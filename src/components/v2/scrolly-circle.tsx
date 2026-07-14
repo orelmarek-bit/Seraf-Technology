@@ -187,7 +187,7 @@ function Stage({ reveal }: { reveal: number }) {
       {/* Anchored by its RIGHT edge so it stays tucked against the tower at every stage size
           (the stage scales with viewport height; this group is fixed-width). */}
       <div className="absolute right-[64%] top-1/2 z-30 -translate-y-1/2 [@media(max-height:700px)]:right-[59%] [@media(max-height:700px)]:scale-[0.8]">
-        <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex items-stretch gap-3">
+        <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex items-stretch gap-5">
           {/* The two branches */}
           <div className="flex h-[126px] flex-col justify-between">
             {/* Branch A — the PCO operator escalates to the police */}
