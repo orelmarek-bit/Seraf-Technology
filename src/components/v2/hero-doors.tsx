@@ -7,7 +7,19 @@ const SEEN_KEY = "seraf-intro-seen";
 const HOLD_MS = 800; // logo held closed before parting
 const SLIDE_MS = 2000; // door slide duration (higher = slower)
 const SKIP_SLIDE_MS = 650; // accelerated slide when the visitor interacts
-const EASE = "cubic-bezier(0.76, 0, 0.24, 1)";
+const EASE = "cubic-bezier(0.76, 0, 0.24, 1)"; // doors: in-out, they're being moved
+const WORD_EASE = "cubic-bezier(0.16, 1, 0.3, 1)"; // wordmark: ease-out, it's leaving
+
+/**
+ * The wordmark is NOT split by the doors. "SERAF" (5 glyphs) is half the width of
+ * "TECHNOLOGY" (10), so the string's centre — where the seam falls — lands mid-word,
+ * slicing the C. Instead it lives on an overlay ABOVE the doors and exits on its own
+ * terms: each letter pushes outward from the centre and fades, so the type stays whole
+ * and the motion echoes the doors parting. Per-letter transforms (not letter-spacing)
+ * keep it on the GPU.
+ */
+const WORDMARK = [..."SERAF TECHNOLOGY"];
+const MID = (WORDMARK.length - 1) / 2;
 
 /**
  * Auto-play "elevator doors" intro overlay.
@@ -92,41 +104,66 @@ export function IntroDoors() {
   const doorBase = "absolute inset-y-0 w-1/2 overflow-hidden bg-[#080D2C]";
   const trans = `transform ${slideMs}ms ${EASE}`;
 
-  // Full wordmark, centred over the logo (which straddles the seam). Rendered on
-  // both doors and pinned to the seam so it splits down the middle exactly like
-  // the logo when the doors part.
-  const wordStyle: React.CSSProperties = {
-    position: "absolute",
-    top: "calc(50% - 25vh)",
-    fontFamily: "var(--font-hanken), sans-serif",
-    fontWeight: 500,
-    textTransform: "uppercase",
-    letterSpacing: "0.16em",
-    fontSize: "clamp(1.3rem, 3vw, 2.9rem)",
-    color: "#eaf1f8",
-    textShadow: "0 0 28px rgba(92,156,255,0.45)",
-    whiteSpace: "nowrap",
-  };
+  // The wordmark leaves faster than the doors travel, so it's clear of the hero
+  // before they finish opening.
+  const wordExitMs = Math.round(slideMs * 0.6);
 
   return (
     <div className="fixed inset-0 z-[70]" aria-hidden>
+      {/* Doors — only the logo is clipped and split by the seam. */}
       <div
         className={cn(doorBase, "left-0")}
         style={{ transition: trans, transform: opened ? "translateX(-110%)" : "translateX(0)" }}
       >
-        <span style={{ ...wordStyle, right: 0, transform: "translate(50%, -100%)" }}>
-          SERAF&nbsp;TECHNOLOGY
-        </span>
         <div className="absolute left-full top-1/2 -translate-x-1/2 -translate-y-1/2">{logo}</div>
       </div>
       <div
         className={cn(doorBase, "left-1/2")}
         style={{ transition: trans, transform: opened ? "translateX(110%)" : "translateX(0)" }}
       >
-        <span style={{ ...wordStyle, left: 0, transform: "translate(-50%, -100%)" }}>
-          SERAF&nbsp;TECHNOLOGY
-        </span>
         <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">{logo}</div>
+      </div>
+
+      {/* Wordmark — above the doors, never clipped. Letters push out from the centre. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 z-10 flex justify-center"
+        style={{ top: "calc(50% - 25vh)" }}
+      >
+        <span
+          className="flex -translate-y-full whitespace-nowrap"
+          style={{
+            fontFamily: "var(--font-hanken), sans-serif",
+            fontWeight: 500,
+            textTransform: "uppercase",
+            letterSpacing: "0.16em",
+            fontSize: "clamp(1.3rem, 3vw, 2.9rem)",
+            color: "#eaf1f8",
+            textShadow: "0 0 28px rgba(92,156,255,0.45)",
+          }}
+        >
+          {WORDMARK.map((ch, i) => {
+            const offset = (i - MID) / MID; // -1 (far left) … 1 (far right)
+            // Centre letters lead, outer letters follow: the spread travels out
+            // from the seam, the same way the doors do.
+            const delay = Math.round(Math.abs(offset) * 90);
+            return (
+              <span
+                key={`${ch}-${i}`}
+                style={{
+                  display: "inline-block",
+                  willChange: "transform, opacity",
+                  transition: `transform ${wordExitMs}ms ${WORD_EASE} ${delay}ms, opacity ${wordExitMs}ms ease-out ${delay}ms`,
+                  transform: opened
+                    ? `translate(calc(${offset} * 5vw), -0.3em)`
+                    : "translate(0, 0)",
+                  opacity: opened ? 0 : 1,
+                }}
+              >
+                {ch === " " ? " " : ch}
+              </span>
+            );
+          })}
+        </span>
       </div>
     </div>
   );
