@@ -55,10 +55,13 @@ export function ComparisonV2({ locale }: { locale: string }) {
       tower: { kind: "yes" },
     },
     {
-      label: _("Mesačné náklady", "Monthly cost"),
-      guards: { kind: "text", text: "€€€" },
-      cctv: { kind: "text", text: "€€" },
-      tower: { kind: "text", text: "€" },
+      // Honest framing: fixed CCTV is a capital cost, not a high monthly one — claiming the
+      // tower is "cheaper per month" than installed CCTV is not defensible. The tower's real
+      // advantage is no capital investment and paying only while the site needs protecting.
+      label: _("Nákladový model", "Cost model"),
+      guards: { kind: "text", text: _("vysoké, opakované", "high, recurring") },
+      cctv: { kind: "text", text: _("vysoká vstupná investícia", "high upfront, low running") },
+      tower: { kind: "text", text: _("mesačný paušál, bez investície", "flat monthly, no upfront") },
     },
   ];
 
@@ -138,7 +141,12 @@ export function ComparisonV2({ locale }: { locale: string }) {
 function CellMark({ cell, strong }: { cell: Cell; strong: boolean }) {
   if (cell.kind === "text") {
     return (
-      <span className={cn("font-mono-v2 text-sm", strong ? "font-semibold text-primary" : "text-foreground/80")}>
+      <span
+        className={cn(
+          "font-mono-v2 text-balance px-2 text-center text-xs leading-snug",
+          strong ? "font-semibold text-primary" : "text-foreground/80",
+        )}
+      >
         {cell.text}
       </span>
     );
