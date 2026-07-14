@@ -197,8 +197,14 @@ function Stage({ reveal }: { reveal: number }) {
                   <Shield className="size-4 text-primary" />
                 </span>
               </RespondNode>
-              {/* bold arrow, pointing left → the operator calls the police */}
-              <svg viewBox="0 0 46 24" className="h-4 w-6 shrink-0 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
+              {/* bold arrow, pointing left → the operator calls the police.
+                  self-start + mt-3 centres it on the 40px icon box, not on the taller
+                  label-inclusive node box. */}
+              <svg
+                viewBox="0 0 46 24"
+                className="mt-3 h-4 w-6 shrink-0 self-start [filter:drop-shadow(0_0_6px_#5c9cff)]"
+                aria-hidden
+              >
                 <path d="M1 12 L19 1 V8 H45 V16 H19 V23 Z" fill="#5c9cff" />
               </svg>
               <RespondNode label="PCO">
@@ -222,20 +228,31 @@ function Stage({ reveal }: { reveal: number }) {
           {/* The fork, nearest the tower — one alarm in from the right, two branches out left.
               ALARM label is absolute so it costs no width. */}
           <div className="relative w-7 shrink-0">
+            {/* overflow-visible: the arrowheads sit at the viewBox edge and would otherwise be
+                clipped. markerUnits=userSpaceOnUse keeps them a fixed size (the default scales
+                them by strokeWidth, which blew them past the edge). */}
             <svg
               viewBox="0 0 28 126"
-              className="h-[126px] w-7 [filter:drop-shadow(0_0_6px_#5c9cff)]"
+              className="h-[126px] w-7 overflow-visible [filter:drop-shadow(0_0_5px_#5c9cff)]"
               fill="none"
               aria-hidden
             >
               <defs>
-                <marker id="v2fork" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
-                  <path d="M0 0 L5 2.5 L0 5 Z" fill="#5c9cff" />
+                <marker
+                  id="v2fork"
+                  markerUnits="userSpaceOnUse"
+                  markerWidth="11"
+                  markerHeight="11"
+                  refX="9"
+                  refY="5.5"
+                  orient="auto"
+                >
+                  <path d="M0 0 L11 5.5 L0 11 Z" fill="#5c9cff" />
                 </marker>
               </defs>
-              <path d="M28 63 H19" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" />
-              <path d="M19 63 C12 63, 11 30, 3 24" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
-              <path d="M19 63 C12 63, 11 96, 3 102" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
+              <path d="M28 63 H20" stroke="#5c9cff" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M20 63 C13 63, 12 32, 8 26" stroke="#5c9cff" strokeWidth="2.5" markerEnd="url(#v2fork)" />
+              <path d="M20 63 C13 63, 12 94, 8 100" stroke="#5c9cff" strokeWidth="2.5" markerEnd="url(#v2fork)" />
             </svg>
             <span className="font-mono-v2 absolute -top-2 left-0 whitespace-nowrap text-[9px] uppercase tracking-widest text-muted-foreground">
               {_("Poplach", "Alarm")}
@@ -272,11 +289,14 @@ function LabelOutside({ children, pos, on }: { children: React.ReactNode; pos: "
   );
 }
 
-/** A node in the RESPOND chain with its short mono label underneath. */
+/** A node in the RESPOND chain with its short mono label underneath.
+ *  The icon sits in a fixed 40px box so every node's circle centres on the same
+ *  baseline — that's what the connecting arrow aligns to (not the taller box
+ *  that includes the label). */
 function RespondNode({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <span className="flex w-11 shrink-0 flex-col items-center gap-1">
-      {children}
+      <span className="flex h-10 items-center justify-center">{children}</span>
       <span className="font-mono-v2 text-center text-[9px] uppercase tracking-widest text-muted-foreground">
         {label}
       </span>
