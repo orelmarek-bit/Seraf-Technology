@@ -184,12 +184,12 @@ function Stage({ reveal }: { reveal: number }) {
       {/* RESPOND visual — left quadrant, read RIGHT → LEFT (the alarm arrives from the tower
           on the right). It forks: up to the PCO operator, who escalates to the police (158);
           down to the owner's phone — both notified at the same moment. Kept clear of the ring. */}
-      {/* The stage scales with viewport height but this group is fixed-width, so it gets
-          squeezed between the ring and the tower on short viewports — scale it down there. */}
-      <div className="absolute left-[5%] top-1/2 z-30 -translate-y-1/2 [@media(max-height:700px)]:scale-[0.88]">
-        <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex items-center gap-1">
-          {/* The two recipients */}
-          <div className="flex h-[112px] flex-col justify-between">
+      {/* Anchored by its RIGHT edge so it stays tucked against the tower at every stage size
+          (the stage scales with viewport height; this group is fixed-width). */}
+      <div className="absolute right-[61%] top-1/2 z-30 -translate-y-1/2 [@media(max-height:700px)]:scale-[0.88]">
+        <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex items-stretch gap-1">
+          {/* The two branches */}
+          <div className="flex h-[126px] flex-col justify-between">
             {/* Branch A — the PCO operator escalates to the police */}
             <div className="flex items-center gap-1">
               <RespondNode label="158">
@@ -208,8 +208,9 @@ function Stage({ reveal }: { reveal: number }) {
               </RespondNode>
             </div>
 
-            {/* Branch B — the owner, notified on their phone at the same instant */}
-            <div className="flex items-center">
+            {/* Branch B — the owner, notified at the same instant. Sits directly under the
+                PCO node (justify-end aligns it to the same right edge). */}
+            <div className="flex items-center justify-end">
               <RespondNode label={_("Majiteľ", "Owner")}>
                 <AlertNode>
                   <Smartphone className="size-5 text-[#080D2C]" />
@@ -218,12 +219,12 @@ function Stage({ reveal }: { reveal: number }) {
             </div>
           </div>
 
-          {/* The fork — one alarm in from the tower (right), two recipients out to the left.
-              The ALARM label is absolute so it costs no width; the group must clear the tower. */}
-          <div className="relative flex h-[112px] w-9 shrink-0 items-center">
+          {/* The fork, nearest the tower — one alarm in from the right, two branches out left.
+              ALARM label is absolute so it costs no width. */}
+          <div className="relative w-7 shrink-0">
             <svg
-              viewBox="0 0 36 112"
-              className="h-[112px] w-9 [filter:drop-shadow(0_0_6px_#5c9cff)]"
+              viewBox="0 0 28 126"
+              className="h-[126px] w-7 [filter:drop-shadow(0_0_6px_#5c9cff)]"
               fill="none"
               aria-hidden
             >
@@ -232,11 +233,11 @@ function Stage({ reveal }: { reveal: number }) {
                   <path d="M0 0 L5 2.5 L0 5 Z" fill="#5c9cff" />
                 </marker>
               </defs>
-              <path d="M36 56 H26" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" />
-              <path d="M26 56 C18 56, 16 30, 7 23" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
-              <path d="M26 56 C18 56, 16 82, 7 89" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
+              <path d="M28 63 H19" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" />
+              <path d="M19 63 C12 63, 11 30, 3 24" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
+              <path d="M19 63 C12 63, 11 96, 3 102" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
             </svg>
-            <span className="font-mono-v2 absolute -top-1 left-0 whitespace-nowrap text-[9px] uppercase tracking-widest text-muted-foreground">
+            <span className="font-mono-v2 absolute -top-2 left-0 whitespace-nowrap text-[9px] uppercase tracking-widest text-muted-foreground">
               {_("Poplach", "Alarm")}
             </span>
           </div>
