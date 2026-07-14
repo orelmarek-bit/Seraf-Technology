@@ -62,23 +62,13 @@ export function ProductsV2({ locale }: { locale: string }) {
         </div>
 
         <div className="mt-16 grid gap-5 lg:grid-cols-3">
-          {products.map((p, i) => {
-            const Icon = p.icon;
+          {products.map((p) => {
             return (
               <div
                 key={p.slug}
-                className="group relative flex flex-col rounded-lg border border-border bg-card/40 p-7 transition-colors duration-200 hover:border-primary/40"
+                className="group relative flex flex-col rounded-lg border border-border bg-card/40 p-7 transition-[border-color,background-color,box-shadow] duration-200 hover:border-primary/50 hover:bg-primary/[0.04] hover:shadow-[0_0_44px_-14px_rgba(92,156,255,0.5)]"
               >
-                <div className="flex items-center justify-between">
-                  <Icon className="size-6 text-primary" aria-hidden />
-                  <span className="font-mono-v2 text-xs text-muted-foreground">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <h3 className="font-display-v2 mt-6 text-3xl leading-none text-foreground">
-                  {p.name}
-                </h3>
+                <h3 className="font-display-v2 text-3xl leading-none text-foreground">{p.name}</h3>
                 <p className="font-mono-v2 mt-2 text-xs uppercase tracking-[0.14em] text-primary/90">
                   {p.tagline}
                 </p>
@@ -100,10 +90,10 @@ export function ProductsV2({ locale }: { locale: string }) {
 
                 <Link
                   href={`/v2/products/${p.slug}`}
-                  className="font-mono-v2 mt-7 inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors hover:text-primary"
+                  className="font-mono-v2 mt-7 inline-flex items-center gap-2 text-base text-foreground/90 transition-colors hover:text-primary"
                 >
                   {_("Detail modelu", "View model")}
-                  <ArrowUpRight className="size-4 text-primary" />
+                  <ArrowUpRight className="size-[18px] text-primary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </div>
             );

@@ -61,7 +61,7 @@ function Pinned({ acts }: { acts: Act[] }) {
     <div ref={ref} className="relative" style={{ height: "420vh" }}>
       <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden">
         <Stage reveal={reveal} />
-        <div className="pointer-events-none absolute bottom-[4vh] left-1/2 h-8 w-[min(90vw,560px)] -translate-x-1/2 text-center">
+        <div className="pointer-events-none absolute bottom-[0.5vh] left-1/2 h-6 w-[min(90vw,560px)] -translate-x-1/2 text-center">
           <motion.p
             key={reveal}
             initial={{ opacity: 0, y: 6 }}
@@ -88,7 +88,9 @@ function Stage({ reveal }: { reveal: number }) {
   const acts = useActs();
   const _ = pick(useLocale());
   return (
-    <div className="relative aspect-square h-[min(74vh,760px)] max-w-[92vw]">
+    // Sized from available height, not raw vh: the act labels sit OUTSIDE the ring and
+    // eat ~55px above and below, and the caption takes the bottom strip.
+    <div className="relative aspect-square h-[min(calc(100vh_-_205px),900px)] max-w-[92vw]">
       <Dial reveal={reveal} />
 
       {/* Labels — OUTSIDE the outer ring */}
@@ -280,7 +282,7 @@ function LabelOutside({ children, pos, on }: { children: React.ReactNode; pos: "
       <motion.span
         animate={showO(on)}
         transition={revealT}
-        className="block font-[family-name:var(--font-space-grotesk)] text-[clamp(1.6rem,3.4vw,3rem)] font-bold tracking-tight text-foreground/90"
+        className="block font-[family-name:var(--font-space-grotesk)] text-[clamp(1.35rem,2.7vw,2.4rem)] font-bold tracking-tight text-foreground/90"
         style={vertical ? { writingMode: "vertical-rl", transform: pos === "left" ? "rotate(180deg)" : undefined } : undefined}
       >
         {children}
