@@ -61,6 +61,7 @@ Page: `src/app/[locale]/v2/page.tsx`
   <HeroV2/>           // Lucien hero
   <section><SectionIntro .../></section>   // "How it works" eyebrow + headline
   <ScrollyCircle/>    // the circular "Threat Loop" HUD (the big one)
+  <AppV2/>            // mobile app: markup-drawn phone + capabilities (app-v2.tsx)
   <ComparisonV2/>     // Guards vs fixed CCTV vs Seraf tower table (comparison-v2.tsx)
   <ProductsV2/>       // 3 tower models + tower showcase w/ annotations (products-v2.tsx)
   <ApplicationsV2/>   // 6 use-cases / Využitie (applications-v2.tsx)
@@ -126,7 +127,14 @@ DETECT (right, 0°) → DETER (bottom-left, 120°) → RESPOND (top-left, 240°)
   silhouette + "filtered" pill. Both silhouettes are `h-14` (same size).
 - **DETER:** "Siren shockwave", glowing "121 dB", expanding siren rings, running-person silhouette
   (`h-14`). (Stroboscopic flash was removed.)
-- **RESPOND (top→bottom):** a vertical notification chain reflecting the real flow —
+- **RESPOND — FORKED (user-confirmed 2026-07-13):** the alarm reaches TWO recipients at once.
+  Read bottom→top: `ALARM` → Y-fork → left branch: PCO operator (headset, pulsing red alert dot)
+  → ↑ → shield + `158` → `POLICE ALERTED`; right branch: owner's phone (Smartphone icon, same
+  alert dot) → `OWNER NOTIFIED` / `MOBILE APP`. Group is `w-[152px]` at `left-[3%]` — these are
+  load-bearing: a wider/righter group **collides with the centre tower** on short viewports
+  (verified down to 1024×560). Shared `AlertNode` renders each lit recipient.
+  *(Superseded the older single vertical chain described below.)*
+- ~~**RESPOND (top→bottom):**~~ *(historical)* a vertical notification chain reflecting the real flow —
   "ALARM" label → ↓ arrow → operator avatar + PCO node ("PCO operator notified") → ↓ arrow →
   police shield + "158" ("Police alerted"). All labels bilingual. (Layout confirmed by the user
   2026-07-12: threat detected → PCO operator notified → operator calls police.)

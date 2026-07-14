@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useLocale } from "next-intl";
-import { Headset, Shield } from "lucide-react";
+import { Headset, Shield, Smartphone } from "lucide-react";
 
 import { pick } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -20,7 +20,7 @@ function useActs(): Act[] {
     { key: "deploy", label: _("NASADENIE", "DEPLOY"), caption: _("Veža nasadená a aktívna do 48 hodín.", "Tower deployed & live within 48 hours.") },
     { key: "detect", label: _("DETEKCIA", "DETECT"), caption: _("AI rozpozná hrozbu a odfiltruje zvieratá.", "AI locks on to threats and filters out animals.") },
     { key: "deter", label: _("ODSTRAŠENIE", "DETER"), caption: _("Siréna 121 dB a svetlá odplašia narušiteľa.", "A 121 dB siren and lights scare the intruder off.") },
-    { key: "respond", label: _("REAKCIA", "RESPOND"), caption: _("Operátor PCO overí poplach a privolá políciu (158).", "The PCO operator verifies the alarm and alerts the police (158).") },
+    { key: "respond", label: _("REAKCIA", "RESPOND"), caption: _("Poplach ide na PCO aj do vášho telefónu — operátor privolá políciu (158).", "The alarm reaches the PCO and your phone — the operator calls the police (158).") },
   ];
 }
 
@@ -181,43 +181,63 @@ function Stage({ reveal }: { reveal: number }) {
         </motion.div>
       </div>
 
-      {/* RESPOND visual — left quadrant.
-          Escalation chain, read bottom → top: alarm ↑ PCO operator ↑ police alerted (158). */}
-      <div className="absolute left-[9%] top-1/2 z-30 -translate-y-1/2">
-        <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex flex-col items-center gap-1.5">
-          {/* TOP — police alerted */}
-          <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
-            {_("Polícia privolaná", "Police alerted")}
-          </span>
-          <span className="font-mono-v2 text-xs font-semibold text-primary">158</span>
-          <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
-            <Shield className="size-4 text-primary" />
-          </span>
-
-          {/* upward arrow */}
-          <svg viewBox="0 0 24 46" className="h-7 w-[15px] [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
-            <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
-          </svg>
-
-          {/* MIDDLE — PCO operator (headset + red alert dot, top-left) */}
-          <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
-            {_("Operátor PCO", "PCO operator")}
-          </span>
-          <span className="relative flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
-            <Headset className="size-5 text-[#080D2C]" />
-            {/* small pulsing/glowing red alert dot, top-left */}
-            <span className="absolute left-1.5 top-1.5 flex size-1.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#ff4d4f] opacity-80" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-[#ff4d4f] shadow-[0_0_5px_1.5px_rgba(255,77,79,0.95)]" />
+      {/* RESPOND visual — left quadrant. Read bottom → top: the alarm forks, reaching the
+          PCO operator (who calls the police) AND the owner's phone, at the same moment. */}
+      <div className="absolute left-[3%] top-1/2 z-30 -translate-y-1/2">
+        <motion.div
+          animate={showS(reveal >= 4)}
+          transition={revealT}
+          className="flex w-[152px] flex-col items-center gap-1.5"
+        >
+          {/* The two recipients, bottom-aligned so the fork meets them evenly */}
+          <div className="flex w-full items-end justify-between">
+            {/* Branch A — PCO operator escalates to the police */}
+            <span className="flex w-[72px] flex-col items-center gap-1.5">
+              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
+                {_("Polícia privolaná", "Police alerted")}
+              </span>
+              <span className="font-mono-v2 text-xs font-semibold text-primary">158</span>
+              <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
+                <Shield className="size-4 text-primary" />
+              </span>
+              <svg viewBox="0 0 24 46" className="h-6 w-[13px] [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
+                <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
+              </svg>
+              <AlertNode>
+                <Headset className="size-5 text-[#080D2C]" />
+              </AlertNode>
+              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
+                {_("Operátor PCO", "PCO operator")}
+              </span>
             </span>
-          </span>
 
-          {/* upward arrow */}
-          <svg viewBox="0 0 24 46" className="h-7 w-[15px] [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
-            <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
+            {/* Branch B — the owner, notified on their phone at the same time */}
+            <span className="flex w-[72px] flex-col items-center gap-1.5">
+              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
+                {_("Majiteľ upozornený", "Owner notified")}
+              </span>
+              <AlertNode>
+                <Smartphone className="size-5 text-[#080D2C]" />
+              </AlertNode>
+              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
+                {_("Mobilná aplikácia", "Mobile app")}
+              </span>
+            </span>
+          </div>
+
+          {/* The fork: one alarm, two recipients */}
+          <svg viewBox="0 0 152 40" className="h-9 w-full [filter:drop-shadow(0_0_6px_#5c9cff)]" fill="none" aria-hidden>
+            <defs>
+              <marker id="v2fork" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+                <path d="M0 0 L5 2.5 L0 5 Z" fill="#5c9cff" />
+              </marker>
+            </defs>
+            <path d="M76 40 V28" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" />
+            <path d="M76 28 C76 17, 44 20, 36 9" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
+            <path d="M76 28 C76 17, 108 20, 116 9" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
           </svg>
 
-          {/* BOTTOM — the alarm */}
+          {/* BOTTOM — the alarm that started it */}
           <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
             {_("Poplach", "Alarm")}
           </span>
@@ -249,6 +269,19 @@ function LabelOutside({ children, pos, on }: { children: React.ReactNode; pos: "
         {children}
       </motion.span>
     </div>
+  );
+}
+
+/** A notified recipient: lit node with a small pulsing red alert dot, top-left. */
+function AlertNode({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="relative flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
+      {children}
+      <span className="absolute left-1.5 top-1.5 flex size-1.5">
+        <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#ff4d4f] opacity-80" />
+        <span className="relative inline-flex size-1.5 rounded-full bg-[#ff4d4f] shadow-[0_0_5px_1.5px_rgba(255,77,79,0.95)]" />
+      </span>
+    </span>
   );
 }
 

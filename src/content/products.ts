@@ -63,6 +63,7 @@ export function getProducts(locale: string): Product[] {
         _("Vstavaný LTE 4G modem", "Built-in LTE 4G modem"),
         _("5-dňová záloha batérie", "5-day battery backup"),
         _("Maják so zeleným svetlom", "Strobe with green light"),
+        _("Ovládanie cez mobilnú aplikáciu", "Mobile app control"),
       ],
       specs: [
         { label: _("Napájanie", "Power"), value: _("Sieť + batéria", "Mains + battery") },
@@ -88,6 +89,7 @@ export function getProducts(locale: string): Product[] {
         _("Reflektory 520 Nm", "520 Nm floodlights"),
         _("32-hodinová výdrž batérie", "32-hour battery life"),
         _("Siréna 121 dB", "121 dB siren"),
+        _("Ovládanie cez mobilnú aplikáciu", "Mobile app control"),
       ],
       specs: [
         { label: _("Napájanie", "Power"), value: _("Batéria", "Battery") },

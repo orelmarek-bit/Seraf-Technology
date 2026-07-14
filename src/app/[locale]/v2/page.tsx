@@ -9,6 +9,7 @@ import { HeroV2 } from "@/components/v2/hero-v2";
 import { TrustStripV2 } from "@/components/v2/trust-strip-v2";
 import { SectionIntro } from "@/components/v2/section-intro";
 import { ScrollyCircle } from "@/components/v2/scrolly-circle";
+import { AppV2 } from "@/components/v2/app-v2";
 import { ComparisonV2 } from "@/components/v2/comparison-v2";
 import { ProductsV2 } from "@/components/v2/products-v2";
 import { ApplicationsV2 } from "@/components/v2/applications-v2";
@@ -64,6 +65,7 @@ export default async function V2Page({ params }: { params: Promise<{ locale: str
 
       <ScrollyCircle />
 
+      <AppV2 locale={locale} />
       <ComparisonV2 locale={locale} />
       <ProductsV2 locale={locale} />
       <ApplicationsV2 locale={locale} />

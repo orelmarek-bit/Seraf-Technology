@@ -180,5 +180,12 @@ export function getFaqs(locale: string): Faq[] {
         "Typically within 48 hours of order confirmation."
       ),
     },
+    {
+      question: _("Čo viem robiť cez mobilnú aplikáciu?", "What can I do from the mobile app?"),
+      answer: _(
+        "Pri detekcii hrozby vám príde okamžité upozornenie — súčasne s operátorom PCO. V aplikácii máte živý prenos 24/7, kameru zapnete či vypnete a cez vstavaný mikrofón môžete hovoriť priamo na mieste.",
+        "You get an instant alert the moment a threat is detected — at the same time as the PCO operator. The app also gives you a 24/7 live view, lets you turn the camera on or off, and lets you speak to the site through the built-in microphone."
+      ),
+    },
   ];
 }
