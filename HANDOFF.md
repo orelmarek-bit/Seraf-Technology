@@ -127,13 +127,17 @@ DETECT (right, 0°) → DETER (bottom-left, 120°) → RESPOND (top-left, 240°)
   silhouette + "filtered" pill. Both silhouettes are `h-14` (same size).
 - **DETER:** "Siren shockwave", glowing "121 dB", expanding siren rings, running-person silhouette
   (`h-14`). (Stroboscopic flash was removed.)
-- **RESPOND — FORKED (user-confirmed 2026-07-13):** the alarm reaches TWO recipients at once.
-  Read bottom→top: `ALARM` → Y-fork → left branch: PCO operator (headset, pulsing red alert dot)
-  → ↑ → shield + `158` → `POLICE ALERTED`; right branch: owner's phone (Smartphone icon, same
-  alert dot) → `OWNER NOTIFIED` / `MOBILE APP`. Group is `w-[152px]` at `left-[3%]` — these are
-  load-bearing: a wider/righter group **collides with the centre tower** on short viewports
-  (verified down to 1024×560). Shared `AlertNode` renders each lit recipient.
-  *(Superseded the older single vertical chain described below.)*
+- **RESPOND — HORIZONTAL FORK, read RIGHT → LEFT (user-confirmed 2026-07-13):** the alarm
+  arrives from the tower (right) and forks to TWO recipients at once. Top branch: PCO operator
+  (headset + pulsing red dot) →bold left arrow→ shield + `158`. Bottom branch: owner's phone
+  (Smartphone + same dot). `ALARM` label is absolutely positioned over the fork so it costs no width.
+  **The geometry is load-bearing:** the group is squeezed between the outer ring (left) and the
+  centre tower (right). `left-[5%]`, ~160px wide, 112px tall, plus
+  `[@media(max-height:700px)]:scale-[0.88]` — the stage scales with viewport HEIGHT but this group
+  is fixed-width, so short viewports squeeze it. Verified at 1024×560 / 1280×720 / 1440×900: all four
+  corners inside the ring AND clear of the tower. Re-verify both if you resize it.
+  **The inner ring (r=34) was removed** from `Dial` at the same time.
+  *(Superseded the earlier vertical chain described below.)*
 - ~~**RESPOND (top→bottom):**~~ *(historical)* a vertical notification chain reflecting the real flow —
   "ALARM" label → ↓ arrow → operator avatar + PCO node ("PCO operator notified") → ↓ arrow →
   police shield + "158" ("Police alerted"). All labels bilingual. (Layout confirmed by the user

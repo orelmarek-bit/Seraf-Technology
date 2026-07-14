@@ -181,66 +181,65 @@ function Stage({ reveal }: { reveal: number }) {
         </motion.div>
       </div>
 
-      {/* RESPOND visual — left quadrant. Read bottom → top: the alarm forks, reaching the
-          PCO operator (who calls the police) AND the owner's phone, at the same moment. */}
-      <div className="absolute left-[3%] top-1/2 z-30 -translate-y-1/2">
-        <motion.div
-          animate={showS(reveal >= 4)}
-          transition={revealT}
-          className="flex w-[152px] flex-col items-center gap-1.5"
-        >
-          {/* The two recipients, bottom-aligned so the fork meets them evenly */}
-          <div className="flex w-full items-end justify-between">
-            {/* Branch A — PCO operator escalates to the police */}
-            <span className="flex w-[72px] flex-col items-center gap-1.5">
-              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
-                {_("Polícia privolaná", "Police alerted")}
-              </span>
-              <span className="font-mono-v2 text-xs font-semibold text-primary">158</span>
-              <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
-                <Shield className="size-4 text-primary" />
-              </span>
-              <svg viewBox="0 0 24 46" className="h-6 w-[13px] [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
-                <path d="M12 1 L23 19 H16 V46 H8 V19 H1 Z" fill="#5c9cff" />
+      {/* RESPOND visual — left quadrant, read RIGHT → LEFT (the alarm arrives from the tower
+          on the right). It forks: up to the PCO operator, who escalates to the police (158);
+          down to the owner's phone — both notified at the same moment. Kept clear of the ring. */}
+      {/* The stage scales with viewport height but this group is fixed-width, so it gets
+          squeezed between the ring and the tower on short viewports — scale it down there. */}
+      <div className="absolute left-[5%] top-1/2 z-30 -translate-y-1/2 [@media(max-height:700px)]:scale-[0.88]">
+        <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex items-center gap-1">
+          {/* The two recipients */}
+          <div className="flex h-[112px] flex-col justify-between">
+            {/* Branch A — the PCO operator escalates to the police */}
+            <div className="flex items-center gap-1">
+              <RespondNode label="158">
+                <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
+                  <Shield className="size-4 text-primary" />
+                </span>
+              </RespondNode>
+              {/* bold arrow, pointing left → the operator calls the police */}
+              <svg viewBox="0 0 46 24" className="h-4 w-6 shrink-0 [filter:drop-shadow(0_0_6px_#5c9cff)]" aria-hidden>
+                <path d="M1 12 L19 1 V8 H45 V16 H19 V23 Z" fill="#5c9cff" />
               </svg>
-              <AlertNode>
-                <Headset className="size-5 text-[#080D2C]" />
-              </AlertNode>
-              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
-                {_("Operátor PCO", "PCO operator")}
-              </span>
-            </span>
+              <RespondNode label="PCO">
+                <AlertNode>
+                  <Headset className="size-5 text-[#080D2C]" />
+                </AlertNode>
+              </RespondNode>
+            </div>
 
-            {/* Branch B — the owner, notified on their phone at the same time */}
-            <span className="flex w-[72px] flex-col items-center gap-1.5">
-              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
-                {_("Majiteľ upozornený", "Owner notified")}
-              </span>
-              <AlertNode>
-                <Smartphone className="size-5 text-[#080D2C]" />
-              </AlertNode>
-              <span className="font-mono-v2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
-                {_("Mobilná aplikácia", "Mobile app")}
-              </span>
-            </span>
+            {/* Branch B — the owner, notified on their phone at the same instant */}
+            <div className="flex items-center">
+              <RespondNode label={_("Majiteľ", "Owner")}>
+                <AlertNode>
+                  <Smartphone className="size-5 text-[#080D2C]" />
+                </AlertNode>
+              </RespondNode>
+            </div>
           </div>
 
-          {/* The fork: one alarm, two recipients */}
-          <svg viewBox="0 0 152 40" className="h-9 w-full [filter:drop-shadow(0_0_6px_#5c9cff)]" fill="none" aria-hidden>
-            <defs>
-              <marker id="v2fork" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
-                <path d="M0 0 L5 2.5 L0 5 Z" fill="#5c9cff" />
-              </marker>
-            </defs>
-            <path d="M76 40 V28" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" />
-            <path d="M76 28 C76 17, 44 20, 36 9" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
-            <path d="M76 28 C76 17, 108 20, 116 9" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
-          </svg>
-
-          {/* BOTTOM — the alarm that started it */}
-          <span className="font-mono-v2 text-[10px] uppercase tracking-widest text-muted-foreground">
-            {_("Poplach", "Alarm")}
-          </span>
+          {/* The fork — one alarm in from the tower (right), two recipients out to the left.
+              The ALARM label is absolute so it costs no width; the group must clear the tower. */}
+          <div className="relative flex h-[112px] w-9 shrink-0 items-center">
+            <svg
+              viewBox="0 0 36 112"
+              className="h-[112px] w-9 [filter:drop-shadow(0_0_6px_#5c9cff)]"
+              fill="none"
+              aria-hidden
+            >
+              <defs>
+                <marker id="v2fork" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+                  <path d="M0 0 L5 2.5 L0 5 Z" fill="#5c9cff" />
+                </marker>
+              </defs>
+              <path d="M36 56 H26" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" />
+              <path d="M26 56 C18 56, 16 30, 7 23" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
+              <path d="M26 56 C18 56, 16 82, 7 89" stroke="#5c9cff" strokeWidth="3" strokeLinecap="round" markerEnd="url(#v2fork)" />
+            </svg>
+            <span className="font-mono-v2 absolute -top-1 left-0 whitespace-nowrap text-[9px] uppercase tracking-widest text-muted-foreground">
+              {_("Poplach", "Alarm")}
+            </span>
+          </div>
         </motion.div>
       </div>
     </div>
@@ -269,6 +268,18 @@ function LabelOutside({ children, pos, on }: { children: React.ReactNode; pos: "
         {children}
       </motion.span>
     </div>
+  );
+}
+
+/** A node in the RESPOND chain with its short mono label underneath. */
+function RespondNode({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <span className="flex w-11 shrink-0 flex-col items-center gap-1">
+      {children}
+      <span className="font-mono-v2 text-center text-[9px] uppercase tracking-widest text-muted-foreground">
+        {label}
+      </span>
+    </span>
   );
 }
 
@@ -372,9 +383,6 @@ function Dial({ reveal }: { reveal: number }) {
           />
         );
       })}
-
-      {/* single fainter inner ring closer to centre */}
-      <circle cx="50" cy="50" r="34" fill="none" stroke="#5c9cff" strokeOpacity="0.12" strokeWidth="0.3" />
 
       {/* wedge dividers between the four quadrants */}
       {wedges.map((deg) => {
