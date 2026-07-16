@@ -82,9 +82,12 @@ v2 re-skin of inner pages is not done yet).
 - **nav-v2.tsx** — `→ About` left; centered logo + `SERAF TECHNOLOGY` wordmark (mono, tracked). Client;
   hidden during the intro, **fades in** on the `seraf-intro-open` window event; always visible on
   return visits / mobile. `z-50`. (The "Book a Demo" CTA was removed.)
-- **hero-doors.tsx (`IntroDoors`)** — **auto-play "elevator doors" intro.** Shows only on the
-  **first visit per session** (`sessionStorage['seraf-intro-seen']`), **desktop only** (≥768px),
-  and not with reduced-motion. The **original logo (crisp vector)** is shown huge, split into two
+- **hero-doors.tsx (`IntroDoors`)** — **auto-play "elevator doors" intro.** Shows on the
+  **first visit per session** (`sessionStorage['seraf-intro-seen']`), on **all screen sizes**
+  (the ≥768px desktop-only gate was removed 2026-07-16 — the client wanted it on phones too;
+  wordmark measures 276px at 375px so it fits, and the logo is capped by `max-w-[88vw]`).
+  Skipped with reduced-motion. **`nav-v2.tsx` mirrors these conditions** — if they drift, the
+  nav floats over the closed doors. The **original logo (crisp vector)** is shown huge, split into two
   clipped door panels; the wordmark **"SERAF"** sits above the left half and **"TECHNOLOGY"** above
   the right half. After an 800 ms hold the halves **auto-slide apart** (inline CSS transition,
   `SLIDE_MS = 3600 ms`) to uncover the hero, then the overlay removes itself. Scroll is locked during

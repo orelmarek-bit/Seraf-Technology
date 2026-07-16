@@ -23,21 +23,20 @@ const MID = (WORDMARK.length - 1) / 2;
 
 /**
  * Auto-play "elevator doors" intro overlay.
- * On the first visit (per session, desktop, motion allowed) the original logo +
- * split wordmark ("SERAF" / "TECHNOLOGY") cover the screen as two halves, then
- * the halves slide apart on their own to reveal the hero, then the overlay
- * removes itself. Return visits / mobile / reduced-motion skip it entirely.
+ * On the first visit (per session, motion allowed) the original logo covers the
+ * screen as two halves which slide apart to reveal the hero, then the overlay
+ * removes itself. Runs on phones too — it's the brand moment, and the motion is
+ * GPU translateX either way. Return visits / reduced-motion skip it entirely.
  */
 export function IntroDoors() {
   const [phase, setPhase] = useState<"closed" | "open" | "done">("closed");
   const [slideMs, setSlideMs] = useState(SLIDE_MS);
 
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 768px)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const seen = sessionStorage.getItem(SEEN_KEY);
 
-    if (!desktop || reduce || seen) {
+    if (reduce || seen) {
       setPhase("done");
       return;
     }

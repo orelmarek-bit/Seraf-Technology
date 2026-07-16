@@ -14,10 +14,10 @@ export function NavV2({ locale, introAware = true }: { locale: string; introAwar
 
   useEffect(() => {
     if (!introAware) return; // pages without the intro overlay show the nav immediately
-    const desktop = window.matchMedia("(min-width: 768px)").matches;
+    // Must mirror IntroDoors' own conditions, or the nav floats over the closed doors.
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const willPlay = desktop && !reduce && !sessionStorage.getItem("seraf-intro-seen");
-    if (!willPlay) return; // return visit / mobile → nav stays visible
+    const willPlay = !reduce && !sessionStorage.getItem("seraf-intro-seen");
+    if (!willPlay) return; // return visit / reduced-motion → nav stays visible
 
     setVisible(false); // hide during the intro, fade in as the doors part
     const onOpen = () => setVisible(true);
