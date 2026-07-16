@@ -61,13 +61,13 @@ function Pinned({ acts }: { acts: Act[] }) {
     <div ref={ref} className="relative" style={{ height: "420vh" }}>
       <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden">
         <Stage reveal={reveal} />
-        <div className="pointer-events-none absolute bottom-[0.5vh] left-1/2 h-6 w-[min(90vw,560px)] -translate-x-1/2 text-center">
+        <div className="pointer-events-none absolute bottom-[1vh] left-1/2 h-12 w-[min(92vw,680px)] -translate-x-1/2 text-center">
           <motion.p
             key={reveal}
             initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: reveal === 0 ? 0.6 : 1, y: 0 }}
+            animate={{ opacity: reveal === 0 ? 0.65 : 1, y: 0 }}
             transition={{ duration: 0.4, ease: EASE_OUT }}
-            className="text-sm text-muted-foreground"
+            className="text-balance text-base leading-snug text-foreground/90 sm:text-lg"
           >
             {reveal === 0 ? _("Skrolujte a sledujte, ako to funguje", "Scroll to see how it works") : acts[active].caption}
           </motion.p>
@@ -90,7 +90,7 @@ function Stage({ reveal }: { reveal: number }) {
   return (
     // Sized from available height, not raw vh: the act labels sit OUTSIDE the ring and
     // eat ~55px above and below, and the caption takes the bottom strip.
-    <div className="relative aspect-square h-[min(calc(100vh_-_205px),900px)] max-w-[92vw]">
+    <div className="relative aspect-square h-[min(calc(100vh_-_255px),900px)] max-w-[92vw]">
       <Dial reveal={reveal} />
 
       {/* Labels — OUTSIDE the outer ring */}
@@ -199,15 +199,23 @@ function Stage({ reveal }: { reveal: number }) {
                   <Shield className="size-4 text-primary" />
                 </span>
               </RespondNode>
-              {/* bold arrow, pointing left → the operator calls the police.
-                  self-start + mt-3 centres it on the 40px icon box, not on the taller
+              {/* Thin trace + chevron, matching the fork — the operator calls the police.
+                  self-start + mt-4 centres it on the 40px icon box, not on the taller
                   label-inclusive node box. */}
               <svg
-                viewBox="0 0 46 24"
-                className="mt-3 h-4 w-6 shrink-0 self-start [filter:drop-shadow(0_0_6px_#5c9cff)]"
+                viewBox="0 0 30 12"
+                className="mt-4 h-3 w-7 shrink-0 self-start overflow-visible [filter:drop-shadow(0_0_4px_rgba(92,156,255,0.75))]"
+                fill="none"
                 aria-hidden
               >
-                <path d="M1 12 L19 1 V8 H45 V16 H19 V23 Z" fill="#5c9cff" />
+                <path d="M29 6 H4.5" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" />
+                <path
+                  d="M9 1.6 L4.4 6 L9 10.4"
+                  stroke="#5c9cff"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               <RespondNode label="PCO">
                 <AlertNode>
@@ -230,12 +238,14 @@ function Stage({ reveal }: { reveal: number }) {
           {/* The fork, nearest the tower — one alarm in from the right, two branches out left.
               ALARM label is absolute so it costs no width. */}
           <div className="relative w-7 shrink-0">
-            {/* overflow-visible: the arrowheads sit at the viewBox edge and would otherwise be
-                clipped. markerUnits=userSpaceOnUse keeps them a fixed size (the default scales
-                them by strokeWidth, which blew them past the edge). */}
+            {/* Drawn in the dial's linework, not chunky arrows: thin traces, a glowing
+                junction where one alarm becomes two, and open chevron heads.
+                overflow-visible so the heads at the viewBox edge aren't clipped;
+                markerUnits=userSpaceOnUse keeps them a fixed size (the default scales
+                them by strokeWidth). */}
             <svg
               viewBox="0 0 28 126"
-              className="h-[126px] w-7 overflow-visible [filter:drop-shadow(0_0_5px_#5c9cff)]"
+              className="h-[126px] w-7 overflow-visible [filter:drop-shadow(0_0_4px_rgba(92,156,255,0.75))]"
               fill="none"
               aria-hidden
             >
@@ -243,18 +253,30 @@ function Stage({ reveal }: { reveal: number }) {
                 <marker
                   id="v2fork"
                   markerUnits="userSpaceOnUse"
-                  markerWidth="11"
-                  markerHeight="11"
-                  refX="9"
-                  refY="5.5"
+                  markerWidth="8"
+                  markerHeight="8"
+                  refX="5.6"
+                  refY="4"
                   orient="auto"
                 >
-                  <path d="M0 0 L11 5.5 L0 11 Z" fill="#5c9cff" />
+                  <path
+                    d="M1.2 1.2 L5 4 L1.2 6.8"
+                    fill="none"
+                    stroke="#5c9cff"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </marker>
               </defs>
-              <path d="M28 63 H20" stroke="#5c9cff" strokeWidth="2.5" strokeLinecap="round" />
-              <path d="M20 63 C13 63, 12 32, 8 26" stroke="#5c9cff" strokeWidth="2.5" markerEnd="url(#v2fork)" />
-              <path d="M20 63 C13 63, 12 94, 8 100" stroke="#5c9cff" strokeWidth="2.5" markerEnd="url(#v2fork)" />
+              {/* signal in, from the tower */}
+              <path d="M28 63 H22" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" />
+              {/* junction — one alarm becomes two */}
+              <circle cx="19.6" cy="63" r="2.3" fill="#5c9cff" />
+              <circle cx="19.6" cy="63" r="5.2" fill="none" stroke="#5c9cff" strokeOpacity="0.4" strokeWidth="0.9" />
+              {/* the two branches */}
+              <path d="M19.6 63 C13 63, 12 32, 7 26" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#v2fork)" />
+              <path d="M19.6 63 C13 63, 12 94, 7 100" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#v2fork)" />
             </svg>
             <span className="font-mono-v2 absolute -top-2 left-0 whitespace-nowrap text-[9px] uppercase tracking-widest text-muted-foreground">
               {_("Poplach", "Alarm")}

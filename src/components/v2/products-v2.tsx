@@ -61,20 +61,27 @@ export function ProductsV2({ locale }: { locale: string }) {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-5 lg:grid-cols-3">
+        {/* subgrid: the 4 rows (name+tagline, summary, specs, link) are defined on the
+            parent, so every card's rows line up even though the summaries wrap to
+            different line counts. Without it, a longer summary pushes that card's spec
+            table and link out of line with its neighbours. */}
+        <div className="mt-16 grid gap-5 lg:grid-cols-3 lg:grid-rows-[auto_auto_auto_auto]">
           {products.map((p) => {
             return (
               <div
                 key={p.slug}
-                className="group relative flex flex-col rounded-lg border border-border bg-card/40 p-7 transition-[border-color,background-color,box-shadow] duration-200 hover:border-primary/50 hover:bg-primary/[0.04] hover:shadow-[0_0_44px_-14px_rgba(92,156,255,0.5)]"
+                className="group relative flex flex-col gap-4 rounded-lg border border-border bg-card/40 p-7 transition-[border-color,background-color,box-shadow] duration-200 hover:border-primary/50 hover:bg-primary/[0.04] hover:shadow-[0_0_44px_-14px_rgba(92,156,255,0.5)] lg:row-span-4 lg:grid lg:grid-rows-subgrid lg:gap-0"
               >
-                <h3 className="font-display-v2 text-3xl leading-none text-foreground">{p.name}</h3>
-                <p className="font-mono-v2 mt-2 text-xs uppercase tracking-[0.14em] text-primary/90">
-                  {p.tagline}
-                </p>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
+                <div>
+                  <h3 className="font-display-v2 text-3xl leading-none text-foreground">{p.name}</h3>
+                  <p className="font-mono-v2 mt-2 text-xs uppercase tracking-[0.14em] text-primary/90">
+                    {p.tagline}
+                  </p>
+                </div>
 
-                <dl className="mt-7 space-y-0 border-t border-border">
+                <p className="text-sm leading-relaxed text-muted-foreground lg:mt-4">{p.summary}</p>
+
+                <dl className="space-y-0 self-start border-t border-border lg:mt-7 lg:w-full">
                   {p.specs.map((s) => (
                     <div
                       key={s.label}
@@ -90,7 +97,7 @@ export function ProductsV2({ locale }: { locale: string }) {
 
                 <Link
                   href={`/v2/products/${p.slug}`}
-                  className="font-mono-v2 mt-7 inline-flex items-center gap-2 text-base text-foreground/90 transition-colors hover:text-primary"
+                  className="font-mono-v2 inline-flex items-center gap-2 self-start text-base text-foreground/90 transition-colors hover:text-primary lg:mt-7"
                 >
                   {_("Detail modelu", "View model")}
                   <ArrowUpRight className="size-[18px] text-primary transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

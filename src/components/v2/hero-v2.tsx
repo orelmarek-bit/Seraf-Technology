@@ -7,11 +7,15 @@ import { SpecTicker } from "./spec-ticker";
 export function HeroV2({ locale }: { locale: string }) {
   const _ = pick(locale);
 
+  // Also carries the trust facts that used to sit in a strip under the hero
+  // ("48 hours" was already here, so it isn't duplicated).
   const specs = [
     _("24/7 autonómny monitoring", "24/7 autonomous monitoring"),
     _("360° pokrytie · bez slepých miest", "360° coverage · no blind spots"),
     _("Nasadenie do 48 hodín", "Deployed within 48 hours"),
     _("AI detekcia hrozieb", "AI threat detection"),
+    _("15+ rokov skúseností", "15+ years of experience"),
+    _("Napojenie na PCO", "Connected to PCO monitoring"),
   ];
 
   return (
