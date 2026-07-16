@@ -50,7 +50,9 @@ export default async function V2Page({ params }: { params: Promise<{ locale: str
       <IntroDoors />
       <HeroV2 locale={locale} />
 
-      <section id="how" className="scroll-mt-16 px-6 pt-24 sm:px-10">
+      {/* scroll-mt-0: the section already carries its own top padding, so any
+          scroll-margin would leave a sliver of the hero visible above it. */}
+      <section id="how" className="scroll-mt-0 px-6 pt-24 sm:px-10">
         <SectionIntro
           eyebrow={_("Ako to funguje", "How it works")}
           title={_("Od nasadenia po reakciu", "From deployment to response")}

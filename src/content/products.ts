@@ -39,11 +39,14 @@ export function getProducts(locale: string): Product[] {
         _("Siréna a maják 121 dB", "121 dB siren & strobe"),
         _("Ovládanie cez mobilnú aplikáciu", "Mobile app control"),
       ],
+      // Spec rows share the same first four categories across every tower
+      // (Power, Battery backup, Camera, Siren); a category unique to one card
+      // sits last so the tables still read across.
       specs: [
         { label: _("Napájanie", "Power"), value: _("Solárne + batéria", "Solar + battery") },
         { label: _("Záloha batérie", "Battery backup"), value: _("10 dní", "10 days") },
         { label: _("Kamera", "Camera"), value: _("AI, 4 senzory, 360°", "AI, 4-sensor, 360°") },
-        { label: _("Siréna", "Siren"), value: "121 dB" },
+        { label: _("Siréna", "Siren"), value: _("Maják + Siréna", "Strobe + Siren") },
         { label: _("Konektivita", "Connectivity"), value: _("LTE 4G", "LTE 4G") },
       ],
     },
@@ -69,7 +72,7 @@ export function getProducts(locale: string): Product[] {
         { label: _("Napájanie", "Power"), value: _("Sieť + batéria", "Mains + battery") },
         { label: _("Záloha batérie", "Battery backup"), value: _("5 dní", "5 days") },
         { label: _("Kamera", "Camera"), value: _("4 senzory, 360°", "4-sensor, 360°") },
-        { label: _("Siréna", "Siren"), value: _("Maják + siréna", "Strobe + siren") },
+        { label: _("Siréna", "Siren"), value: _("Maják + Siréna", "Strobe + Siren") },
         { label: _("Konektivita", "Connectivity"), value: _("LTE 4G", "LTE 4G") },
       ],
     },
@@ -77,7 +80,7 @@ export function getProducts(locale: string): Product[] {
       slug: "pro-lights",
       icon: ScanEye,
       highlighted: false,
-      name: "PRO Lights",
+      name: "PRO LIGHTS",
       tagline: _("Maximálny dosah a zoom", "Maximum range & zoom"),
       summary: _(
         "Výkonná veža s 31× optickým zoomom a reflektormi 520 Nm pre rozľahlé objekty, ktoré vyžadujú detailný dohľad na diaľku.",
@@ -94,9 +97,13 @@ export function getProducts(locale: string): Product[] {
       specs: [
         { label: _("Napájanie", "Power"), value: _("Batéria", "Battery") },
         { label: _("Záloha batérie", "Battery backup"), value: _("32 hodín", "32 hours") },
-        { label: _("Zoom", "Zoom"), value: _("31× optický", "31× optical") },
+        {
+          label: _("Kamera", "Camera"),
+          value: _("AI, 4 senzory, 360° s 31× optickým zoomom", "AI, 4-sensor, 360° with 31× optical zoom"),
+        },
+        { label: _("Siréna", "Siren"), value: _("Maják + Siréna", "Strobe + Siren") },
+        // Lighting is unique to this tower — kept last so the shared rows align.
         { label: _("Osvetlenie", "Lighting"), value: "520 Nm" },
-        { label: _("Siréna", "Siren"), value: "121 dB" },
       ],
     },
   ];
