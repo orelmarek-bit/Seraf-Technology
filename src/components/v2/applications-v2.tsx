@@ -41,8 +41,10 @@ export function ApplicationsV2({ locale }: { locale: string }) {
                 className="group relative min-h-[17rem] [perspective:1200px] [@media(hover:none)]:min-h-0"
               >
                 <div className="absolute inset-0 transition-transform duration-500 ease-out [transform-style:preserve-3d] [@media(hover:hover)]:group-hover:[transform:rotateY(180deg)] [@media(hover:none)]:relative">
-                  {/* Front */}
-                  <div className="absolute inset-0 flex flex-col gap-3 rounded-lg border border-border bg-card/40 p-7 [backface-visibility:hidden] [@media(hover:none)]:relative">
+                  {/* Front. The explicit rotateY(0) matters: a face with no transform of
+                      its own doesn't get a reliable backface inside a preserve-3d +
+                      transition context, and its mirrored text bleeds through the back. */}
+                  <div className="absolute inset-0 flex flex-col gap-3 rounded-lg border border-border bg-card/40 p-7 [backface-visibility:hidden] [transform:rotateY(0deg)] [@media(hover:none)]:relative [@media(hover:none)]:[transform:none]">
                     <Icon className="size-6 text-primary" aria-hidden />
                     <h3 className="mt-1 text-lg font-medium text-foreground">{s.title}</h3>
                     <p className="text-sm leading-relaxed text-muted-foreground">{s.short}</p>
@@ -56,9 +58,16 @@ export function ApplicationsV2({ locale }: { locale: string }) {
                     </div>
                   </div>
 
-                  {/* Back — hover-capable devices only */}
+                  {/* Back — hover-capable devices only.
+                      Opaque on purpose: a translucent face lets the front's mirrored
+                      text show through. The tint is a flat gradient layer over the card
+                      colour, so it stays on tokens while being fully opaque. */}
                   <div
-                    className="absolute inset-0 flex flex-col justify-center gap-4 rounded-lg border border-primary/40 bg-primary/[0.06] p-7 [backface-visibility:hidden] [transform:rotateY(180deg)] [@media(hover:none)]:hidden"
+                    className="absolute inset-0 flex flex-col justify-center gap-4 rounded-lg border border-primary/40 p-7 [backface-visibility:hidden] [transform:rotateY(180deg)] [@media(hover:none)]:hidden"
+                    style={{
+                      background:
+                        "linear-gradient(hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.08)), hsl(var(--card))",
+                    }}
                     aria-hidden
                   >
                     <h3 className="font-mono-v2 text-xs uppercase tracking-[0.14em] text-primary">
