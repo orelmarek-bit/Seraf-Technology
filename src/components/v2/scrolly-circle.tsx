@@ -188,23 +188,28 @@ function Stage({ reveal }: { reveal: number }) {
           down to the owner's phone — both notified at the same moment. Kept clear of the ring. */}
       {/* Anchored by its RIGHT edge so it stays tucked against the tower at every stage size
           (the stage scales with viewport height; this group is fixed-width). */}
-      <div className="absolute right-[64%] top-1/2 z-30 -translate-y-1/2 [@media(max-height:700px)]:right-[59%] [@media(max-height:700px)]:scale-[0.8]">
+      {/* The stage is sized from viewport HEIGHT, so the band between the ring and the
+          tower shrinks on short viewports while this group's px sizes don't. Step it down
+          with the stage. origin-right shrinks it toward the tower — that side has spare
+          room, whereas the ring is a hard edge. (Height steps, not a vh-based scale():
+          calc(100vh/900) yields a length, and scale() needs a unitless number.) */}
+      <div className="absolute right-[64%] top-1/2 z-30 origin-right -translate-y-1/2 [@media(max-height:860px)_and_(min-height:781px)]:scale-[0.85] [@media(max-height:780px)_and_(min-height:701px)]:scale-[0.72] [@media(max-height:700px)]:scale-[0.54]">
         <motion.div animate={showS(reveal >= 4)} transition={revealT} className="flex items-stretch gap-5">
           {/* The two branches */}
-          <div className="flex h-[126px] flex-col justify-between">
+          <div className="flex h-[152px] flex-col justify-between">
             {/* Branch A — the PCO operator escalates to the police */}
             <div className="flex items-center gap-1">
               <RespondNode label="158">
-                <span className="flex size-9 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
-                  <Shield className="size-4 text-primary" />
+                <span className="flex size-11 items-center justify-center rounded-full border border-primary/50 bg-primary/10 [filter:drop-shadow(0_0_6px_#5c9cff)]">
+                  <Shield className="size-5 text-primary" />
                 </span>
               </RespondNode>
               {/* Thin trace + chevron, matching the fork — the operator calls the police.
-                  self-start + mt-4 centres it on the 40px icon box, not on the taller
+                  self-start + mt-[18px] centres it on the 48px icon box, not on the taller
                   label-inclusive node box. */}
               <svg
                 viewBox="0 0 30 12"
-                className="mt-4 h-3 w-7 shrink-0 self-start overflow-visible [filter:drop-shadow(0_0_4px_rgba(92,156,255,0.75))]"
+                className="mt-[18px] h-3 w-7 shrink-0 self-start overflow-visible [filter:drop-shadow(0_0_4px_rgba(92,156,255,0.75))]"
                 fill="none"
                 aria-hidden
               >
@@ -219,7 +224,7 @@ function Stage({ reveal }: { reveal: number }) {
               </svg>
               <RespondNode label="PCO">
                 <AlertNode>
-                  <Headset className="size-5 text-[#080D2C]" />
+                  <Headset className="size-6 text-[#080D2C]" />
                 </AlertNode>
               </RespondNode>
             </div>
@@ -229,7 +234,7 @@ function Stage({ reveal }: { reveal: number }) {
             <div className="flex items-center justify-end">
               <RespondNode label={_("Majiteľ", "Owner")}>
                 <AlertNode>
-                  <Smartphone className="size-5 text-[#080D2C]" />
+                  <Smartphone className="size-6 text-[#080D2C]" />
                 </AlertNode>
               </RespondNode>
             </div>
@@ -244,8 +249,8 @@ function Stage({ reveal }: { reveal: number }) {
                 markerUnits=userSpaceOnUse keeps them a fixed size (the default scales
                 them by strokeWidth). */}
             <svg
-              viewBox="0 0 28 126"
-              className="h-[126px] w-7 overflow-visible [filter:drop-shadow(0_0_4px_rgba(92,156,255,0.75))]"
+              viewBox="0 0 28 152"
+              className="h-[152px] w-7 overflow-visible [filter:drop-shadow(0_0_4px_rgba(92,156,255,0.75))]"
               fill="none"
               aria-hidden
             >
@@ -269,14 +274,14 @@ function Stage({ reveal }: { reveal: number }) {
                   />
                 </marker>
               </defs>
-              {/* signal in, from the tower */}
-              <path d="M28 63 H22" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" />
+              {/* signal in, from the tower — junction sits at the group's mid-height (152/2) */}
+              <path d="M28 76 H22" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" />
               {/* junction — one alarm becomes two */}
-              <circle cx="19.6" cy="63" r="2.3" fill="#5c9cff" />
-              <circle cx="19.6" cy="63" r="5.2" fill="none" stroke="#5c9cff" strokeOpacity="0.4" strokeWidth="0.9" />
-              {/* the two branches */}
-              <path d="M19.6 63 C13 63, 12 32, 7 26" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#v2fork)" />
-              <path d="M19.6 63 C13 63, 12 94, 7 100" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#v2fork)" />
+              <circle cx="19.6" cy="76" r="2.3" fill="#5c9cff" />
+              <circle cx="19.6" cy="76" r="5.2" fill="none" stroke="#5c9cff" strokeOpacity="0.4" strokeWidth="0.9" />
+              {/* branches meet each node's 48px icon-box centre: top y=24, bottom y=128 */}
+              <path d="M19.6 76 C13 76, 12 32, 7 24" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#v2fork)" />
+              <path d="M19.6 76 C13 76, 12 120, 7 128" stroke="#5c9cff" strokeWidth="1.5" strokeLinecap="round" markerEnd="url(#v2fork)" />
             </svg>
             <span className="font-mono-v2 absolute -top-2 left-0 whitespace-nowrap text-[9px] uppercase tracking-widest text-muted-foreground">
               {_("Poplach", "Alarm")}
@@ -313,15 +318,16 @@ function LabelOutside({ children, pos, on }: { children: React.ReactNode; pos: "
   );
 }
 
-/** A node in the RESPOND chain with its short mono label underneath.
- *  The icon sits in a fixed 40px box so every node's circle centres on the same
+/** A node in the RESPOND chain with its mono label underneath.
+ *  The icon sits in a fixed 48px box so every node's circle centres on the same
  *  baseline — that's what the connecting arrow aligns to (not the taller box
- *  that includes the label). */
+ *  that includes the label). The label matches the other acts' callouts
+ *  ("AI lock-on", "Siren shockwave"): 12px semibold primary, not muted. */
 function RespondNode({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <span className="flex w-11 shrink-0 flex-col items-center gap-1">
-      <span className="flex h-10 items-center justify-center">{children}</span>
-      <span className="font-mono-v2 text-center text-[9px] uppercase tracking-widest text-muted-foreground">
+    <span className="flex w-14 shrink-0 flex-col items-center gap-1.5">
+      <span className="flex h-12 items-center justify-center">{children}</span>
+      <span className="font-mono-v2 text-center text-xs font-semibold uppercase tracking-widest text-primary">
         {label}
       </span>
     </span>
@@ -331,7 +337,7 @@ function RespondNode({ label, children }: { label: string; children: React.React
 /** A notified recipient: lit node with a small pulsing red alert dot, top-left. */
 function AlertNode({ children }: { children: React.ReactNode }) {
   return (
-    <span className="relative flex size-10 items-center justify-center rounded-full bg-primary shadow-[0_0_16px_2px_#5c9cff]">
+    <span className="relative flex size-12 items-center justify-center rounded-full bg-primary shadow-[0_0_18px_2px_#5c9cff]">
       {children}
       <span className="absolute left-1.5 top-1.5 flex size-1.5">
         <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#ff4d4f] opacity-80" />
