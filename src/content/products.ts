@@ -102,6 +102,7 @@ export function getProducts(locale: string): Product[] {
           value: _("AI, 4 senzory, 360° s 31× optickým zoomom", "AI, 4-sensor, 360° with 31× optical zoom"),
         },
         { label: _("Siréna", "Siren"), value: _("Maják + Siréna", "Strobe + Siren") },
+        { label: _("Konektivita", "Connectivity"), value: _("LTE 4G", "LTE 4G") },
         // Lighting is unique to this tower — kept last so the shared rows align.
         { label: _("Osvetlenie", "Lighting"), value: "520 Nm" },
       ],
