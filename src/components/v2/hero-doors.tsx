@@ -48,9 +48,11 @@ export function IntroDoors() {
     let doneT: ReturnType<typeof setTimeout>;
     let skipped = false;
 
+    // Touch-primary (phones/tablets): never skip — see the listener block below.
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+
     const removeListeners = () => {
       window.removeEventListener("wheel", skip);
-      window.removeEventListener("touchstart", skip);
       window.removeEventListener("keydown", skip);
       window.removeEventListener("pointerdown", skip);
     };
@@ -76,10 +78,15 @@ export function IntroDoors() {
     }
 
     openT = setTimeout(() => open(SLIDE_MS), HOLD_MS);
-    window.addEventListener("wheel", skip, { passive: true });
-    window.addEventListener("touchstart", skip, { passive: true });
-    window.addEventListener("keydown", skip);
-    window.addEventListener("pointerdown", skip);
+
+    // Touch-primary devices play it through in full: a phone gets picked up, tapped and
+    // brushed constantly, so honouring those as "skip" cut the brand moment to 650ms for
+    // no real intent. Pointer/keyboard devices keep skip — there a click or scroll IS intent.
+    if (!coarsePointer) {
+      window.addEventListener("wheel", skip, { passive: true });
+      window.addEventListener("keydown", skip);
+      window.addEventListener("pointerdown", skip);
+    }
 
     return () => {
       clearTimeout(openT);
